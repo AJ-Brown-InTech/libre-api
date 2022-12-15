@@ -41,7 +41,7 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        push: true
+        load: true
         tags:  test:1
         
         #${{ secrets.DOCKER_USERNAME }}/ubuntu:20.04
