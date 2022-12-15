@@ -40,7 +40,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: ./.github/workflows./Dockerfile
+        file: ./Dockerfile
         push: true
         tags:  test:1
         
