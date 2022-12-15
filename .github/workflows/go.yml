@@ -43,7 +43,5 @@ jobs:
         context: .
         file: ./Dockerfile
         load: true
-        tags:  libre-api:1
-        
-        #${{ secrets.DOCKER_USERNAME }}/ubuntu:20.04
+        tags: ${{ secrets.DOCKER_USERNAME }}/ubuntu:20.04
       
