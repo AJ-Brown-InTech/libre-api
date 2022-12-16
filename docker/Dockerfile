@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 
 #add admin user and dir
 RUN apt-get -y update
-RUN useradd -m admin && apt-get install -y wget
+RUN useradd -m admin && apt-get install -y  && apt-get install fish
 # # install golang v1.19 (doesn't matter what sub version)
 RUN wget  https://go.dev/dl/go1.19.linux-amd64.tar.gz
 RUN tar -xvf go1.19.linux-amd64.tar.gz   
