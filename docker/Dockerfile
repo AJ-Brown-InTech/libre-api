@@ -13,7 +13,6 @@ COPY . ./home/admin/api
 WORKDIR /home/admin/api
 
 RUN go get
-
 CMD ["echo","complete"]
 
-#RUN go run main.go
+RUN go run main.go

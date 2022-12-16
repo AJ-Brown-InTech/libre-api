@@ -1,33 +1,20 @@
 version: "3.8"
 
 services:
-  web:
+  api:
     image: ajalanbrown/libre-api:latest
     container_name: libre_rest_api
-    build:
-      context: ./
-      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    restart: always
-    # volumes:
-    #   - ./:/app
-    tty: true 
-    networks:
-      - web_api
-
-  postgesql:
+      - 8080:8080
+    user: admin
+    #tty: true 
+  db:
       image: postgres:12-alpine
       container_name: libre_postgesql
       ports:
-        - "9090:9090"
+        - "5432:5432"
       restart: always
       environment:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=libre
-      networks:
-        - web_api       
-networks:
-    web_api:
-      driver: bridge
+        - POSTGRES_DB=libre     
