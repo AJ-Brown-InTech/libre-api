@@ -9,7 +9,10 @@ RUN cd home && cd admin && mkdir api && cd api
 # #bundle app source
 COPY . ./home/admin/api
 
-#run following cmd in specific api dir
+#ru specific api dir
 WORKDIR /home/admin/api
-#RUN go run main.go
+
+EXPOSE 8080
+EXPOSE 9090
+
 CMD ["echo","complete"]

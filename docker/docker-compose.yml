@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: ajalanbrown/libre-api
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      - PORT=8080
+    depends_on:
+      - postgesql
+    restart: always
+    volumes:
+      - ./:/app
+    networks:
+      - web_api
+
+  postgesql:
+      image: postgres:12-alpine
+      container_name: libre_postgesql
+      ports:
+        - "9090:9090"
+      restart: always
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=libre
+      volumes:
+        - ./pgdata:/var/lib/postgresql/data
+      networks:
+        - web_api
