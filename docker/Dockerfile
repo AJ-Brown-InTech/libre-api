@@ -12,7 +12,8 @@ COPY . ./home/admin/api
 #ru specific api dir
 WORKDIR /home/admin/api
 
-EXPOSE 8080
-EXPOSE 9090
+RUN go get
 
 CMD ["echo","complete"]
+
+RUN go run main.go
