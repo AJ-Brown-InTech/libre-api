@@ -23,7 +23,6 @@ RUN rm "/tmp/go1.19.4.linux-arm64.tar.gz"
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
-RUN go version
 
 #create api dir
 RUN cd home; cd admin;
