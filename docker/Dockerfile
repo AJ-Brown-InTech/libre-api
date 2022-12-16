@@ -9,7 +9,7 @@ FROM ubuntu:20.04
 
 #add admin user and dir
 RUN apt-get -y update
-RUN useradd -m admin sudo
+RUN useradd -m admin
 
 # install golang v1.19 (doesn't matter what sub version)
 RUN apt-get update
