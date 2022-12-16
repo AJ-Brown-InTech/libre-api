@@ -1,5 +1,0 @@
-docker tag libre-api:api new-repo:api
-docker push api:tagname
-
-docker tag local-image:tagname new-repo:tagname
-docker push new-repo:tagname

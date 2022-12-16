@@ -2,17 +2,16 @@
 # thats the only reason 20.04 is being used
 FROM ubuntu:22.04 
 
-#setup dir and fs
-# RUN apt-get -y update
-# RUN useradd -m admin
-
-
 #add admin user and dir
 RUN apt-get -y update
 RUN useradd -m admin
-
 # # install golang v1.19 (doesn't matter what sub version)
-
+RUN wget  https://go.dev/dl/go1.19.linux-amd64.tar.gz
+RUN tar -xvf go1.19.linux-amd64.tar.gz   
+RUN mv go /usr/local 
+RUN export GOROOT=/usr/local/go 
+RUN export GOPATH=$HOME/Projects/Proj1 
+RUN export PATH=$GOPATH/bin:$GOROOT/bin:$PATH 
 #create api dir
 RUN cd home && cd admin && mkdir api && cd api
 # #bundle app source
