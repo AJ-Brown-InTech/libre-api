@@ -3,9 +3,7 @@ FROM ubuntu:22.04
 
 #add admin user and dir
 RUN apt-get -y update
-RUN useradd -m admin && apt-get install -y  && apt-get install fish
-# # install golang v1.18 
-RUN apt-get install -y golang-go
+RUN useradd -m admin && apt-get install -y fish && apt-get install -y golang-go
 #create api dir
 RUN cd home && cd admin && mkdir api && cd api
 # #bundle app source
