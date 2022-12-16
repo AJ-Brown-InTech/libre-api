@@ -16,4 +16,4 @@ RUN go get
 
 CMD ["echo","complete"]
 
-RUN go run main.go
+#RUN go run main.go
