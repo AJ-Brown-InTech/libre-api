@@ -1,3 +1,3 @@
-module github.com/AJ-Brown-InTech/cmd
+module github.com/AJ-Brown-InTech/libre-api
 
-go 1.19
+go 1.18
