@@ -3,9 +3,9 @@ FROM ubuntu:22.04
 
 #add admin user and dir
 RUN apt-get -y update
-RUN useradd -m admin && apt-get install -y fish && apt-get install -y golang-go
+RUN useradd -m admin && apt-get install -y fish && apt-get install -y golang-go && apt-get install ca-certificates
 #create api dir
-RUN cd home && cd admin && mkdir api && cd api
+RUN cd home && cd admin && mkdir api && cd api 
 # #bundle app source
 COPY . ./home/admin/api
 
