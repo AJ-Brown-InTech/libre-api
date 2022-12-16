@@ -33,4 +33,5 @@ WORKDIR /home/admin/api
 
 #bundle app source
 COPY ./ /home/admin/api
-RUN go run main.go
+#RUN go run main.go
+CMD ["echo","complete"]
