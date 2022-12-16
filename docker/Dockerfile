@@ -14,5 +14,3 @@ WORKDIR /home/admin/api
 
 RUN go get
 CMD ["echo","complete"]
-
-RUN go run main.go
