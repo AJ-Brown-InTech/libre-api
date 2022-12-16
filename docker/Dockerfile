@@ -17,10 +17,10 @@ RUN useradd -m admin
 RUN cd home; cd admin;
 RUN mkdir api
 
-#run following cmd in specific api dir
-WORKDIR /home/admin/api
+# #run following cmd in specific api dir
+# WORKDIR /home/admin/api
 
-#bundle app source
-COPY ./ /home/admin/api
+# #bundle app source
+# COPY . ./home/admin/api
 #RUN go run main.go
 CMD ["echo","complete"]
