@@ -1,19 +1,20 @@
 version: "3.8"
 
 services:
-  api:
-    image: ajalanbrown/libre-api:latest
-    container_name: libre_rest_api
+  database:
+    container_name: libre_database
+    image: postgresql:lastest
+    environment:
+      POSTGRES_USER: libre
+      POSTGRES_PASSWORD: libre
+      POSTGRES_DB: libre
     ports:
-      - "8080:8080"
-    user: admin
-
-  db:
-      image: postgres:12-alpine
-      container_name: libre_postgesql
-      ports:
-        - "5432:5432"
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=libre     
+      - "5432:5432"
+    volumes: 
+      - ./pgdata:/var/lib/postgresql/data
+  rest-api:
+    container_name: libre_rest_api
+    image: ajalanbrown/libre-api:latest
+    # build the Dockerfile, alternatively use an image.
+    depends_on:
+      - "postgres"
