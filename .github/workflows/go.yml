@@ -27,7 +27,7 @@ jobs:
         image: ajalanbrown/libre-api
         tags: latest
         registry: docker.io
-        dockerfile: ./docker/Dockerfile
+        dockerfile: ./Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         push: true
