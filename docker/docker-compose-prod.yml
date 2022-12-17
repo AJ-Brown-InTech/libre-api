@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  api:
+    image: ajalanbrown/libre-api:latest
+    container_name: libre_rest_api
+    ports:
+      - "8080:8080"
+    user: admin
+    tty: true 
+  db:
+      image: postgres:12-alpine
+      container_name: libre_postgesql
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=libre     
