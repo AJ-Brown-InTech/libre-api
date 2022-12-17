@@ -11,13 +11,11 @@ COPY . ./home/admin/api
 
 #ru specific api dir
 WORKDIR /home/admin/api
-RUN su - admin
-ENTRYPOINT CompileDaemon --build="go build home/admin/api/main.go" --command="dlv debug --headless --listen=:40000 --api-version=2 --accept-multiclient home/admin/api/main.go"
 
 RUN go get
-RUN go mod tidy 
+RUN su - admin
 CMD ["echo","complete"]
 
 EXPOSE 8080
-
 RUN go run main.go
+

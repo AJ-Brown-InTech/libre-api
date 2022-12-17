@@ -5,7 +5,7 @@ services:
     container_name: libre_rest_api
     build:
       context: ./
-      dockerfile: Dockerfile.HotReload
+      dockerfile: Dockerfile.Reload
     ports:
       - "8080:8080"
     environment:
