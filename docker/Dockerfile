@@ -14,3 +14,9 @@ WORKDIR /home/admin/api
 
 RUN go get
 CMD ["echo","complete"]
+
+EXPOSE 8080
+EXPOSE 9090
+
+RUN go run main.go
+
