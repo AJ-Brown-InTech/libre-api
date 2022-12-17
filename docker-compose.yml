@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  database:
+  pgdb:
     container_name: libre_database
-    image: postgresql:lastest
+    image: postgres:12-alpine
     environment:
       POSTGRES_USER: libre
       POSTGRES_PASSWORD: libre
@@ -17,4 +17,6 @@ services:
     image: ajalanbrown/libre-api:latest
     # build the Dockerfile, alternatively use an image.
     depends_on:
-      - "postgres"
+      - "pgdb"
+    ports:
+      - "8080:8080"
