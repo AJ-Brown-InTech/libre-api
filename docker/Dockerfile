@@ -13,9 +13,9 @@ COPY . ./home/admin/api
 WORKDIR /home/admin/api
 
 RUN go get
+RUN su - admin
 CMD ["echo","complete"]
 
 EXPOSE 8080
-EXPOSE 9090
 
 

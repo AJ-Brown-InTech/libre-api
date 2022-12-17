@@ -5,10 +5,9 @@ services:
     container_name: libre_rest_api
     build:
       context: ./
-      dockerfile: docker/Dockerfile.HotReload
+      dockerfile: Dockerfile.HotReload
     ports:
       - "8080:8080"
-      - "5432:5432"
     environment:
       - PORT=8080
     depends_on:
@@ -16,8 +15,6 @@ services:
     restart: always
     volumes:
       - ./:/app
-    networks:
-      - web_api
 
   db:
     image: postgres:12-alpine
@@ -31,9 +28,3 @@ services:
       - POSTGRES_DB=libre
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-    networks:
-      - web_api
-
-networks:
-  web_api:
-    driver: bridge
