@@ -1,0 +1,26 @@
+#default os but development can be in any os
+FROM ubuntu:22.04 
+
+#add admin user and dir
+RUN apt-get -y update
+RUN useradd -m admin && apt-get install -y fish && apt-get install -y golang-go && apt-get install -y ca-certificates
+#create api dir
+RUN cd home && cd admin && mkdir api && cd api 
+# #bundle app source
+COPY . ./home/admin/api
+
+#ru specific api dir
+WORKDIR /home/admin/api
+
+RUN go get
+RUN go mod tidy 
+CMD ["echo","complete"]
+
+EXPOSE 8080
+EXPOSE 9090
+
+RUN go run main.go
+
+
+
+ENTRYPOINT CompileDaemon --build="go build cmd/api/main.go" --command="dlv debug --headless --listen=:40000 --api-version=2 --accept-multiclient cmd/api/main.go"
