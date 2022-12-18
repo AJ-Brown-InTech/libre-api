@@ -24,7 +24,9 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 		log.Fatalf("Parsing config file fail %v", err)
 	}
 	appLogger := utils.NewApiLogger(confg)
-
+	//initalize new logger and connect to db
+	appLogger.InitLogger()
+	fmt.Println("pigs")
 	
 
 
