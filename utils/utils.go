@@ -54,6 +54,10 @@ var logLevelMapper = map[string]logrus.Level{
 	"Error": logrus.ErrorLevel,
 	"Panic": logrus.PanicLevel,
 }
+// //gloabals for files
+// InfoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile| log.Lmsgprefix)
+// WarningLogger = log.New(file, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile | log.Lmsgprefix)
+// ErrorLogger = log.New(file, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile | log.Lmsgprefix)
 
 func (x *apiLogger) getLoggerLevel(cfg *config.Config) logrus.Level{
 	level, exist := logLevelMapper[cfg.Logger.Level]
@@ -65,22 +69,27 @@ func (x *apiLogger) getLoggerLevel(cfg *config.Config) logrus.Level{
 
 
 func (x *apiLogger) InitLogger()  {
+	
 	Formatter := new(logrus.TextFormatter)
     Formatter.TimestampFormat = "02-01-2006 15:04:05"
     Formatter.FullTimestamp = true
 	Formatter.DisableColors = false
     logrus.SetFormatter(Formatter)
 
-	logWriter := x.base.Writer()
-	//logLevel := x.getLoggerLevel(x.cfg)
-
+	
+	logLevel := x.getLoggerLevel(x.cfg)
 	file, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
     if err != nil {
         x.base.Fatal(err)
     }
-	 io.MultiWriter(logWriter, file )
-}
 
+	io.MultiWriter(os.Stderr, file)
+	x.base.WriterLevel(logLevel)
+	logrus.SetOutput(os.Stdout)
+	x.base.WriterLevel(logLevel)
+	logrus.SetLevel(logLevel)
+	 
+}
 
 //Logger methods dont wanna add more becasue its redundant
 func (x *apiLogger) Debugf(format string, args ...interface{}) {
