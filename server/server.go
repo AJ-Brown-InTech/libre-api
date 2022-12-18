@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"github.com/labstack/echo/v4"
-	"github.com/AJ-Brown-InTech/libre-api/config"
-
 )
 
 func Server(){
