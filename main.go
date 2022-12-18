@@ -5,14 +5,13 @@ import (
 	"log"
 	"os"
 
-	//"github.com/AJ-Brown-InTech/libre-api/config"
 	"github.com/AJ-Brown-InTech/libre-api/config"
 	"github.com/AJ-Brown-InTech/libre-api/server"
 	"github.com/AJ-Brown-InTech/libre-api/utils"
 )
 
 func main (){
-fmt.Printf("api server starting %s", utils.Timestamp())
+fmt.Printf("api server starting %s\n", utils.Timestamp())
 
 configPath := utils.GetConfigPath(os.Getenv("config")) 
 
@@ -24,6 +23,7 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	if err != nil {
 		log.Fatalf("Parsing config file fail %v", err)
 	}
+	appLogger := utils.NewApiLogger(confg)
 
 	
 
