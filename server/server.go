@@ -9,7 +9,6 @@ import (
 )
 
 func Server(){
-	config.Configuration()
 	e := echo.New()
 	e.GET("/", func(c echo.Context)error{
 		return c.String(http.StatusOK, "Hello, World!")
