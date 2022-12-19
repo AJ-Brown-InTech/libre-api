@@ -5,7 +5,6 @@ import (
 	"time"
 	"errors"
 	"github.com/spf13/viper"
-
 )
 
 // Api config struct

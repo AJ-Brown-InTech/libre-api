@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes: 
-      - ./pgdata:/var/lib/postgresql/data
+      - ./database/pgdata:/var/lib/postgresql/data
   rest-api:
     container_name: libre_rest_api
     image: ajalanbrown/libre-api:latest
