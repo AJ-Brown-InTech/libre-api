@@ -8,6 +8,7 @@ import (
 	"github.com/AJ-Brown-InTech/libre-api/config"
 	"github.com/AJ-Brown-InTech/libre-api/server"
 	"github.com/AJ-Brown-InTech/libre-api/utils"
+	"github.com/AJ-Brown-InTech/libre-api/database"
 )
 
 func main (){
@@ -26,8 +27,18 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	appLogger := utils.NewApiLogger(confg)
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
-	appLogger.Infof("AppVersion: %s", confg.Server.AppVersion)
-	
+	appLogger.Infof("AppVersion: %s, LogLevel: %s, SSLMode:%v, ServerMode: %s ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL, confg.Server.Mode)
+	pgDB,err := database.NewPsqlDb(confg);
+	if err != nil{
+		appLogger.Errorf("Postgres Database in %s", err)
+	} else {
+	appLogger.Infof("Postgres Connected, Status is: %v", pgDB.Stats())
+	}
+
+	//defer pgDB.Close()
+
+
+
 
 
 

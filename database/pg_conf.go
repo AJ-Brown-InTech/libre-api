@@ -5,6 +5,7 @@ import (
 	"time"
 	"github.com/AJ-Brown-InTech/libre-api/config"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/jackc/pgx/stdlib" // pgx driver"
 )
 
 const (
@@ -23,7 +24,6 @@ func NewPsqlDb(c *config.Config)(*sqlx.DB, error){
 	c.Postgres.PostgresqlUser,
 	c.Postgres.PostgresqlPassword,
 	)
-
 	 db, err := sqlx.Connect(c.Postgres.PgDriver, dataSourceName );
 	 if err != nil {
 		return  nil, err
