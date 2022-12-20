@@ -1,3 +1,4 @@
+//utilities == lib for reusable code
 package utils
 
 import (
@@ -84,31 +85,31 @@ func (x *apiLogger) InitLogger()  {
     if err != nil {
         x.base.Fatal(err)
     }
-	io.MultiWriter(os.Stderr, file)
-	x.base.WriterLevel(logLevel)
-	logrus.SetOutput(os.Stdout)
-	x.base.WriterLevel(logLevel)
 	logrus.SetLevel(logLevel)
+	x.base.WriterLevel(logLevel)
+	io.MultiWriter(os.Stdout, file)
+	logrus.SetOutput(os.Stdout)
+	
 }
 
 //Logger methods dont wanna add more becasue its redundant
 func (x *apiLogger) Debugf(format string, args ...interface{}) {
-	x.base.Debugf(format, args)
+	logrus.Debugf(format, args)
 }
 
 func (x *apiLogger) Infof(format string, args ...interface{}) {
-	x.base.Infof(format, args)
+	logrus.Infof(format, args...)
 }
 
 func (x *apiLogger) Warningf(format string, args ...interface{}) {
-	x.base.Warningf(format, args)
+	logrus.Warningf(format, args...)
 }
 
 func (x *apiLogger) Errorf(format string, args ...interface{}) {
-	x.base.Errorf(format, args)
+	logrus.Errorf(format, args)
 }
 
 func (x *apiLogger) Panicf(format string, args ...interface{}) {
-	x.base.Panicf(format, args)
+	logrus.Panicf(format, args)
 }
 

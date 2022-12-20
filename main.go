@@ -26,7 +26,7 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	appLogger := utils.NewApiLogger(confg)
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
-	fmt.Println("pigs")
+	appLogger.Infof("AppVersion: %s", confg.Server.AppVersion)
 	
 
 
