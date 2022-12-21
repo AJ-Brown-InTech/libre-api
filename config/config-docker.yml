@@ -24,7 +24,7 @@ postgres:
   PostgresqlUser: libre
   PostgresqlPassword: libre
   PostgresqlDbname: libre
-  PostgresqlSslmode: false
+  PostgresqlSslmode: true
   PgDriver: pgx
 
 

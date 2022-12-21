@@ -1,7 +1,7 @@
 server:
   AppVersion: 1.0.0
   Port: :8080
-  PprofPort: :8081
+  PprofPort: :8080
   Mode: Development
   JwtSecretKey: secretkey
   CookieName: jwt-token
@@ -22,9 +22,9 @@ logger:
 postgres:
   PostgresqlHost: localhost
   PostgresqlPort: 5432
-  PostgresqlUser: libre
-  PostgresqlPassword: libre
-  PostgresqlDbname: libre
+  PostgresqlUser: postgres
+  PostgresqlPassword: 
+  PostgresqlDbname: postgres
   PostgresqlSslmode: false
   PgDriver: pgx
 

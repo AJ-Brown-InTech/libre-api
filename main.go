@@ -28,14 +28,12 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, SSLMode:%v, ServerMode: %s ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL, confg.Server.Mode)
-	pgDB,err := database.NewPsqlDb(confg);
+	pgDB, err := database.NewPsqlDb(confg);
 	if err != nil{
 		appLogger.Errorf("Postgres Database in %s", err)
 	} else {
-	appLogger.Infof("Postgres Connected, Status is: %v", pgDB.Stats())
+		appLogger.Infof("Postgres Connected, Status is: %v", pgDB.Stats())
 	}
-
-	//defer pgDB.Close()
 
 
 
