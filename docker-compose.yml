@@ -5,10 +5,10 @@ services:
     container_name: libre_database
     image: postgres:12-alpine
     environment:
-      POSTGRES_HOST: localhost
-      POSTGRES_USER: libre
-      POSTGRES_PASSWORD: libre
-      POSTGRES_DB: libre
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=libre
+      - POSTGRES_PASSWORD=libre
+      - POSTGRES_DB=libre
     ports:
       - "5432:5432"
     volumes: 

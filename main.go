@@ -30,9 +30,9 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, SSLMode:%v, ServerMode: %s ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL, confg.Server.Mode)
 	pgDB, err := database.NewPsqlDb(confg);
 	if err != nil{
-		appLogger.Errorf("Postgres Database in %s", err)
+		appLogger.Errorf("Postgres Database in 2 %s", err)
 	} else {
-		appLogger.Infof("Postgres Connected, Status is: %v", pgDB.Stats())
+		appLogger.Infof("Postgres Connected, Status is: 3 %v", pgDB.Stats())
 	}
 
 

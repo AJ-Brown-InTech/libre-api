@@ -20,11 +20,11 @@ logger:
   Level: info
 
 postgres:
-  PostgresqlHost: localhost
+  PostgresqlHost: "localhost"
   PostgresqlPort: 5432
-  PostgresqlUser: postgres
-  PostgresqlPassword: 
-  PostgresqlDbname: postgres
+  PostgresqlUser: "libre"
+  PostgresqlPassword: "libre"
+  PostgresqlDbname: "libre"
   PostgresqlSslmode: false
   PgDriver: pgx
 

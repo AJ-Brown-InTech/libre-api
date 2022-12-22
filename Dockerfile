@@ -1,5 +1,5 @@
 # Specify the base image for the go app.
-FROM golang:1.18
+FROM --platform=linux/amd64 golang:1.18
 # Specify that we now need to execute any commands in this directory.
 WORKDIR /go/src/github.com/AJ-Brown-InTech/libre-api/
 # Copy everything from this project into the filesystem of the container.

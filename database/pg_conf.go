@@ -2,12 +2,13 @@
 package database
 import (
 	"fmt"
-	"time"
 	"github.com/AJ-Brown-InTech/libre-api/config"
-	"github.com/jmoiron/sqlx"
-	_ "github.com/jackc/pgx/stdlib" // pgx driver"
+	_ "github.com/lib/pq"
+	"database/sql"
+	"time"
 )
 
+//db connectors DO NOT TOUCH
 const (
 	maxOpenConns    = 100
 	connMaxLifetime = 120
@@ -15,32 +16,36 @@ const (
 	connMaxIdleTime = 20
 )
 
-func NewPsqlDb(c *config.Config)(*sqlx.DB, error){
+//create a new db connection ALWAYS CLOSE WHEN USING so no idle connections are hanging around
+func NewPsqlDb(c *config.Config)(*sql.DB, error){
+	
+	host := c.Postgres.PostgresqlHost
+	port := c.Postgres.PostgresqlPort
+	dbname := c.Postgres.PostgresqlDbname
+	user := c.Postgres.PostgresqlUser
+	password := c.Postgres.PostgresqlPassword
 
-	var dataSourceName string = fmt.Sprintf("host=%s, port=%s, dbname=%s, user=%s, password=%s, sslmode=disable", 
-	c.Postgres.PostgresqlHost,
-	string(c.Postgres.PostgresqlPort),
-	c.Postgres.PostgresqlDbname,
-	c.Postgres.PostgresqlUser,
-	c.Postgres.PostgresqlPassword,
+	dataSourceName := fmt.Sprintf("host=%s, port=%s, dbname=%s, user=%s, password=%s, sslmode=disable", 
+		host,
+		port,
+		dbname,
+		user,
+		password,
 	)
 	
-	 db, err := sqlx.Open(c.Postgres.PgDriver, dataSourceName )
+	 db, err := sql.Open("postgres", dataSourceName )
 	 if err != nil {
-		fmt.Println(nil)
-		fmt.Println(err)
 		return  nil, err
 	}
 	
-	db.SetMaxOpenConns(maxOpenConns)//not sure how many but from what i read 100 is max before performance becomes an issue
-	db.SetMaxIdleConns(maxIdleConns)//idle just added a few incase some connections are hung up
-	db.SetConnMaxLifetime(connMaxLifetime * time.Second)
-	db.SetConnMaxIdleTime(connMaxIdleTime * time.Second)
+	 db.SetMaxOpenConns(maxOpenConns)//not sure how many but from what i read 100 is max before performance becomes an issue
+	 db.SetMaxIdleConns(maxIdleConns)//idle just added a few incase some connections are hung up
+	 db.SetConnMaxLifetime(connMaxLifetime * time.Second)
+	 db.SetConnMaxIdleTime(connMaxIdleTime * time.Second)
 	
-	err = db.Ping()
+	err = db.Ping() //ping db server to verify connection
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(db)
 	return db, nil
 }
