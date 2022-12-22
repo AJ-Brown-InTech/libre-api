@@ -34,6 +34,7 @@ func NewPsqlDb(c *config.Config)(*sql.DB, error){
 	)
 	
 	 db, err := sql.Open("postgres", dataSourceName )
+	 fmt.Println(db)
 	 if err != nil {
 		return  nil, err
 	}
@@ -47,5 +48,6 @@ func NewPsqlDb(c *config.Config)(*sql.DB, error){
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(db)
 	return db, nil
 }

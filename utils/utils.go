@@ -2,7 +2,7 @@
 package utils
 
 import (
-	"io"
+	//"io"
 	"os"
 	"time"
 	"github.com/AJ-Brown-InTech/libre-api/config"
@@ -87,7 +87,7 @@ func (x *apiLogger) InitLogger()  {
     }
 	logrus.SetLevel(logLevel)
 	x.base.WriterLevel(logLevel)
-	io.MultiWriter(os.Stdout, file)
+	logrus.SetOutput(file)
 	logrus.SetOutput(os.Stdout)
 	
 }

@@ -4,6 +4,7 @@ services:
   pgdb:
     container_name: libre_database
     image: postgres:12-alpine
+    restart: always
     environment:
       - POSTGRES_HOST=localhost
       - POSTGRES_USER=libre
@@ -20,4 +21,4 @@ services:
     depends_on:
       - "pgdb"
     ports:
-      - "8080:8080"
+      - "8181:8181"

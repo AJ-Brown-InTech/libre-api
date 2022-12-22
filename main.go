@@ -25,6 +25,7 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 		log.Fatalf("Parsing config file fail %v", err)
 	}
 	appLogger := utils.NewApiLogger(confg)
+
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, SSLMode:%v, ServerMode: %s ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL, confg.Server.Mode)
