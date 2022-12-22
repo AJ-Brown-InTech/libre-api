@@ -33,21 +33,19 @@ func NewPsqlDb(c *config.Config)(*sql.DB, error){
 		password,
 	)
 	
-	 db, err := sql.Open("postgres", dataSourceName )
-	 fmt.Println(db)
+	 db, err := sql.Open("postgres", dataSourceName ) //opens db
+	 
 	 if err != nil {
-		return  nil, err
+		fmt.Println(err)
+		//return  nil, err
 	}
-	
+	defer db.Close()
 	 db.SetMaxOpenConns(maxOpenConns)//not sure how many but from what i read 100 is max before performance becomes an issue
 	 db.SetMaxIdleConns(maxIdleConns)//idle just added a few incase some connections are hung up
 	 db.SetConnMaxLifetime(connMaxLifetime * time.Second)
 	 db.SetConnMaxIdleTime(connMaxIdleTime * time.Second)
 	
-	err = db.Ping() //ping db server to verify connection
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println(db)
+	// err = db.Ping() //ping db server to verify connection
+	
 	return db, nil
 }
