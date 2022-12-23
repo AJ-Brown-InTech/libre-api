@@ -41,5 +41,5 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 
 
 
-	server.Server()
+	server.Serve()
 }

@@ -23,8 +23,6 @@ type ServerConfig struct {
 	PprofPort         string
 	Mode              string
 	JwtSecretKey      string
-	ReadTimeout       time.Duration
-	WriteTimeout      time.Duration
 	SSL               bool
 	CtxDefaultTimeout time.Duration
 	CSRF              bool
