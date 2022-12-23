@@ -34,26 +34,26 @@ func(c *Cookie)GenerateToken(length int)string{
 	return  stamp
 }
 // Configure jwt cookie
-func CreateSessionCookie(cfg *config.Config, session string) *http.Cookie {
-	return &http.Cookie{
-		Name:  cfg.Session.Name,
-		Value: session,
-		Path:  "/",
-		// Domain: "/",
-		Expires:    time.Now().Add(1 * time.Minute),
-		RawExpires: "",
-		MaxAge:     cfg.Session.Expire,
-		HttpOnly:   cfg.Cookie.HTTPOnly,
-		SameSite:   0,
+	func CreateSessionCookie(cfg *config.Config, session string) *http.Cookie {
+		return &http.Cookie{
+			Name:  cfg.Session.Name,
+			Value: session,
+			Path:  "/",
+			// Domain: "/",
+			Expires:    time.Now().Add(1 * time.Minute),
+			RawExpires: "",
+			MaxAge:     cfg.Session.Expire,
+			HttpOnly:   cfg.Cookie.HTTPOnly,
+			SameSite:   0,
+		}
 	}
-
 	// Delete session
-func DeleteSessionCookie(c echo.Context, sessionName string) {
-	c.SetCookie(&http.Cookie{
-		Name:   sessionName,
-		Value:  "",
-		Path:   "/",
-		MaxAge: -1,
-	})
-}
+	func DeleteSessionCookie(c echo.Context, sessionName string) {
+		c.SetCookie(&http.Cookie{
+			Name:   sessionName,
+			Value:  "",
+			Path:   "/",
+			MaxAge: -1,
+		})
+	}
 }
