@@ -3,6 +3,7 @@ module github.com/AJ-Brown-InTech/libre-api
 go 1.18
 
 require (
+	github.com/gorilla/securecookie v1.1.1
 	github.com/gorilla/sessions v1.2.1
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/lib/pq v1.10.7
@@ -14,10 +15,10 @@ require (
 require (
 	github.com/766b/go-outliner v0.0.0-20180511142203-fc6edecdadd7 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
-	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
+	github.com/klauspost/compress v1.15.13 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect

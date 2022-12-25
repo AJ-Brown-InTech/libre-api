@@ -3,57 +3,73 @@ package utils
 
 import (
 	"crypto/rand"
-	"encoding/base32"
+	//"encoding/base32"
 	"fmt"
 	"net/http"
 	"time"
-	"github.com/gorilla/sessions"
+	"github.com/gorilla/securecookie"
+	"github.com/klauspost/compress/s2"
+	"github.com/labstack/echo/v4"
+	"github.com/AJ-Brown-InTech/libre-api/config"
 )
 
-type Cookie struct{
-Name *http.Cookie
-Value *http.Cookie
-RawExpires *http.Cookie
-MaxAge *http.Cookie
-
-}
-
-type Cookie interface{
-	GenerateCookie()//returns string
-
-}
-
-//generate a cookie hash/token
-func(c *Cookie)GenerateToken(length int)string{
+//generate a cookie instance
+func NewCookieSession() *securecookie.SecureCookie{
 	randomBytes := make([]byte,32)
 	if _, err := rand.Read(randomBytes); err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
-	stamp :=  base32.StdEncoding.EncodeToString(randomBytes)[:length]
-	return  stamp
+	var hashKey = []byte("user-session")
+	securecookie.GenerateRandomKey(6)
+	var secret = securecookie.New(hashKey, randomBytes)
+	//stamp :=  base32.StdEncoding.EncodeToString(randomBytes)[:length] // makes a string
+	//store := sessions.NewCookieStore(randomBytes)
+	return secret
 }
-// Configure jwt cookie
-	func CreateSessionCookie(cfg *config.Config, session string) *http.Cookie {
-		return &http.Cookie{
-			Name:  cfg.Session.Name,
-			Value: session,
-			Path:  "/",
-			// Domain: "/",
-			Expires:    time.Now().Add(1 * time.Minute),
-			RawExpires: "",
-			MaxAge:     cfg.Session.Expire,
-			HttpOnly:   cfg.Cookie.HTTPOnly,
-			SameSite:   0,
-		}
+
+// Create a new session cookie 
+func CreateSessionCookie(cfg *config.Config) *http.Cookie {
+	//random cookie value 
+	newCookieVal := securecookie.GenerateRandomKey(10)
+
+	return &http.Cookie{
+		Name:  cfg.Session.Name,
+		Value: string(newCookieVal),
+		Path:  "/",
+		// Domain: "/",
+		Expires:    time.Now().Add(1 * time.Minute),
+		RawExpires: "",
+		MaxAge:     cfg.Session.Expire,
+		Secure:     false,
+		HttpOnly:   true,
+		SameSite:   0,
 	}
-	// Delete session
-	func DeleteSessionCookie(c echo.Context, sessionName string) {
-		c.SetCookie(&http.Cookie{
-			Name:   sessionName,
-			Value:  "",
-			Path:   "/",
-			MaxAge: -1,
-		})
+}
+
+// Delete session cookie
+func DeleteSessionCookie(c echo.Context, sessionName string) {
+	c.SetCookie(&http.Cookie{
+		Name:   sessionName,
+		Value:  "",
+		Path:   "/",
+		MaxAge: -1,
+	})
+}
+
+// Get user ip address
+func GetIPAddress(c echo.Context) string {
+	return c.Request().RemoteAddr
+}
+
+//read my fucking cookie token bitch
+func ReadCookieHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
+
+	if cookie, err := r.Cookie(cfg.Session.Name); err == nil {
+		value := make(map[string]string)
+
+		if err = s2.Decode(cfg.Session.Name, cookie.Value, &value); err == nil {
+			fmt.Fprintf(w, "The value of foo is %q", value["foo"])
+		}
 	}
 }
