@@ -7,7 +7,7 @@ import (
 
 	"github.com/AJ-Brown-InTech/libre-api/config"
 	"github.com/AJ-Brown-InTech/libre-api/server"
-	"github.com/AJ-Brown-InTech/libre-api/utils"
+	"github.com/AJ-Brown-InTech/libre-api/packages/utils"
 	"github.com/AJ-Brown-InTech/libre-api/database"
 )
 

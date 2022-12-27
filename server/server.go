@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/AJ-Brown-InTech/libre-api/config"
-	"github.com/AJ-Brown-InTech/libre-api/utils"
+	"github.com/AJ-Brown-InTech/libre-api/packages/utils"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/net/context"
 )
