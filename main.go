@@ -37,9 +37,11 @@ configPath := utils.GetConfigPath(os.Getenv("config"))
 	}
 
 
+	s := server.NewServer(confg,pgDB,appLogger)
+	if err = s.Run(); err != nil {
+		appLogger.Panicf("Server it not running, %v", err)
+	}
 
 
 
-
-	server.Serve()
 }

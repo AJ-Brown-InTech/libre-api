@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 	"github.com/gorilla/securecookie"
-	"github.com/klauspost/compress/s2"
+	//"github.com/klauspost/compress/s2"
 	"github.com/labstack/echo/v4"
 	"github.com/AJ-Brown-InTech/libre-api/config"
 )
@@ -62,14 +62,13 @@ func GetIPAddress(c echo.Context) string {
 	return c.Request().RemoteAddr
 }
 
-//read my fucking cookie token bitch
-func ReadCookieHandler(w http.ResponseWriter, r *http.Request, cfg *config.Config) {
-
-	if cookie, err := r.Cookie(cfg.Session.Name); err == nil {
-		value := make(map[string]string)
-
-		if err = s2.Decode(cfg.Session.Name, cookie.Value, &value); err == nil {
-			fmt.Fprintf(w, "The value of foo is %q", value["foo"])
-		}
-	}
-}
+// //read my fucking cookie token bitch
+// func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
+// 	if cookie, err := r.Cookie("cookie-name"); err == nil {
+// 		value := make(map[string]string)
+// 		otherErr := s2.Decode("cookie-name")
+// 		if otherErr == nil {
+// 			fmt.Fprintf(w, "The value of foo is %q", value["foo"])
+// 		}
+// 	}
+// }

@@ -67,7 +67,7 @@ func (s *Server) Run()error{
 
 	s.logs.Infof("Server Exited Properly %v",ctx)
 		return s.echo.Server.Shutdown(ctx)
-	
+
 }
 
 
