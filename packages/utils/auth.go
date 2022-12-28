@@ -7,11 +7,22 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
 	"github.com/gorilla/securecookie"
+
 	//"github.com/klauspost/compress/s2"
-	"github.com/labstack/echo/v4"
 	"github.com/AJ-Brown-InTech/libre-api/config"
+//	"github.com/AJ-Brown-InTech/libre-api/packages/utils"
+	"github.com/labstack/echo/v4"
 )
+
+//Cookie interface  == just crud operations for cookies
+type Cookies interface {
+	NewCookieSession() *securecookie.SecureCookie
+	CreateSessionCookie() *http.Cookie
+	DeleteSessionCookie()
+	
+}
 
 //generate a cookie instance
 func NewCookieSession() *securecookie.SecureCookie{
@@ -62,13 +73,22 @@ func GetIPAddress(c echo.Context) string {
 	return c.Request().RemoteAddr
 }
 
-// //read my fucking cookie token bitch
-// func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
-// 	if cookie, err := r.Cookie("cookie-name"); err == nil {
-// 		value := make(map[string]string)
-// 		otherErr := s2.Decode("cookie-name")
-// 		if otherErr == nil {
-// 			fmt.Fprintf(w, "The value of foo is %q", value["foo"])
-// 		}
-// 	}
-// }
+//read my fucking cookie
+func ReadCookie(c *config.Config, w http.ResponseWriter, r *http.Request) bool {
+	
+	sessionKey := c.Session.Name //specific key we are looking for
+	_, err := r.Cookie(string(sessionKey)) //specific cookie id for our api
+	
+	if err != nil {
+		//l.Errorf("Cookie not available %v", ourCookie)
+		return false
+	} else {
+		//l.Infof("Cookie is available %v", ourCookie)
+		return true
+	}
+	
+}
+
+
+ 
+ 
