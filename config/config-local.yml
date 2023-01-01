@@ -15,12 +15,12 @@ logger:
 
 postgres:
   PostgresqlHost: "localhost"
-  PostgresqlPort: 5432
+  PostgresqlPort: 5000
   PostgresqlUser: "libre"
   PostgresqlPassword: "libre"
   PostgresqlDbname: "libre"
   PostgresqlSslmode: false
-  PgDriver: pgx
+  PgDriver: postgres
 
 session:
   Name: user-session

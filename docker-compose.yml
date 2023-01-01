@@ -11,9 +11,9 @@ services:
       - POSTGRES_PASSWORD=libre
       - POSTGRES_DB=libre
     ports:
-      - "5432:5432"
+      - "5432:5000"
     volumes: 
-      - ./database/pgdata:/var/lib/postgresql/data
+      - ./packages/database/pgdata:/var/lib/postgresql/data
   rest-api:
     container_name: libre_rest_api
     image: ajalanbrown/libre-api:latest

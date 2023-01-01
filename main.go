@@ -1,15 +1,16 @@
-package main 
+package main
 
 import (
-	"os"
-	"log"
-	"time"
 	"fmt"
+	"log"
+	"os"
+	"time"
+
+	"github.com/AJ-Brown-InTech/libre-ra/config"
+	"github.com/AJ-Brown-InTech/libre-ra/packages/database"
+	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/AJ-Brown-InTech/libre-ra/config"
-	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
-
 )
 
 func main(){
@@ -26,7 +27,10 @@ func main(){
 
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
-	appLogger.Infof("AppVersion: %s, LogLevel: %s, SSLMode:%v ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL)
+	database.NewPsqlDb(confg, appLogger)
+	appLogger.Infof("Libre API spects: AppVersion: %s, LogLevel: %s, SSLMode:%v ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL)
+	// Connect with database
+
 	// pgDB, err := database.NewPsqlDb(confg);
 	// if err != nil{
 	// 	appLogger.Errorf("Postgres Database in 2 %s", err)
