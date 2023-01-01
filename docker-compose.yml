@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_HOST=localhost
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=libre
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=libre
     ports:
       - "5432:5432"
@@ -16,16 +16,17 @@ services:
       - ./packages/database/pgdata:/var/lib/postgresql/data
     networks:
       - web_api
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway" # use for mac docker.for.mac.host.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # use for mac docker.for.mac.host.internal
   rest-api:
     container_name: libre_rest_api
     image: ajalanbrown/libre-api:latest
+    restart: always
     # build the Dockerfile, alternatively use an image.
     depends_on:
       - "pgdb"
     ports:
-      - "8181:8181"
+      - "8080:8080"
     networks:
       - web_api
 networks:
