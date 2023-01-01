@@ -2,7 +2,6 @@ package config
 
 import (
 	"log"
-	"time"
 	"errors"
 	"github.com/spf13/viper"
 )
@@ -11,7 +10,6 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
-	MongoDB  MongoDB
 	Session  Session
 	Logger   Logger
 }
@@ -20,13 +18,8 @@ type Config struct {
 type ServerConfig struct {
 	AppVersion        string
 	Port              string
-	PprofPort         string
-	Mode              string
-	JwtSecretKey      string
+	CookieName        string
 	SSL               bool
-	CtxDefaultTimeout time.Duration
-	CSRF              bool
-	Debug             bool
 }
 
 // Logger config
@@ -49,15 +42,8 @@ type PostgresConfig struct {
 	PgDriver           string
 }
 
-// MongoDB config
-type MongoDB struct {
-	MongoURI string
-}
-
-
 // Session config
 type Session struct {
-	Prefix string
 	Name   string
 	Expire int
 }

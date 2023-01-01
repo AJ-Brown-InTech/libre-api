@@ -1,14 +1,10 @@
 server:
   AppVersion: 1.0.0
   Port: :8080
-  PprofPort: :8282
-  Mode: Development
-  JwtSecretKey: secretkey
   CookieName: jwt-token
   SSL: false
   CtxDefaultTimeout: 12
   CSRF: true
-  Debug: false
 
 logger:
   Development: true
@@ -27,9 +23,5 @@ postgres:
   PgDriver: pgx
 
 session:
-  Name: session-id
-  Prefix: api-session
+  Name: user-session
   Expire: 3600
-
-mongodb:
-  MongoURI: uristring

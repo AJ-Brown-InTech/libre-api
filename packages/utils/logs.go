@@ -2,13 +2,9 @@
 package utils
 
 import (
-	//"io"
+	
 	"os"
-	"time"
-
-	"github.com/AJ-Brown-InTech/libre-api/config"
-	// "github.com/AJ-Brown-InTech/libre-api/server"
-	// "github.com/labstack/echo/v4"
+	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/sirupsen/logrus"
 )
 
@@ -22,18 +18,10 @@ type Logger interface{
 	Panicf(format string, args ...interface{})
 }
 
-
-//current time timestamp
-func Timestamp ()string{
-	currentTime := time.Now()
-	var timestamp string = currentTime.Format("01-02-2006 15:04:05")
-	return timestamp
-}
-
 // Get config path for local or docker
 func GetConfigPath(path string ) string  {
 	if path == "docker"{
-		return "./config/config-docker"
+		return "./config/config-production"
 	}
 	 return "./config/config-local"
 }

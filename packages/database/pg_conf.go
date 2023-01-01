@@ -2,7 +2,7 @@
 package database
 import (
 	"fmt"
-	"github.com/AJ-Brown-InTech/libre-api/config"
+	"github.com/AJ-Brown-InTech/libre-ra/config"
 	_ "github.com/lib/pq"
 	"database/sql"
 	"time"
