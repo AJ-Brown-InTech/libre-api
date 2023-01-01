@@ -14,8 +14,8 @@ logger:
   Level: info
 
 postgres:
-  PostgresqlHost: "localhost"
-  PostgresqlPort: 5000
+  PostgresqlHost: "fa673e30fb7afcfcd4965e2e4365673dc86b19ba6158b09200f392f0aac4f015"
+  PostgresqlPort: 5432
   PostgresqlUser: "libre"
   PostgresqlPassword: "libre"
   PostgresqlDbname: "libre"

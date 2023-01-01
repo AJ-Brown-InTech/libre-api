@@ -23,3 +23,6 @@ CREATE TABLE COMPANY (ID INT PRIMARY KEY NOT NULL, NAME text);
 INSERT INTO  company(id,name) values (1,'test');
 SELECT * from company;
 ```
+
+
+find dcoker ip```ip addr show docker0 | grep -Po 'inet \K[\d.]+'```
