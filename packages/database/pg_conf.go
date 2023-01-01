@@ -30,21 +30,22 @@ func NewPsqlDb(c *config.Config, log utils.Logger)(*sqlx.DB, error){
 
 	//db config
 	p := c.Postgres.PostgresqlPort
-	port, err := strconv.ParseInt(p, 10, 0)
+	 port, err := strconv.ParseInt(p, 10, 0)
 
-	if err != nil {
+	 if err != nil {
 		fmt.Println("Error during conversion")
 		return nil,err
 	}
 
-	host := c.Postgres.PostgresqlHost
+	//host := c.Postgres.PostgresqlHost  "host=%s
 	dbname := c.Postgres.PostgresqlDbname 
 	user := c.Postgres.PostgresqlUser
 	password := c.Postgres.PostgresqlPassword
 	driver := c.Postgres.PgDriver
 
-	dataSourceName := fmt.Sprintf("host=%s, port=%d, user=%s, password=%s, dbname=%s, sslmode=disable", 
-		host,
+	dataSourceName := fmt.Sprintf( "port=%d user=%s "+
+    "password=%s dbname=%s sslmode=disable", 
+		//host,
 		port,
 		user,
 		password,
