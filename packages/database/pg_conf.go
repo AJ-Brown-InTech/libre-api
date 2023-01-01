@@ -38,17 +38,17 @@ func NewPsqlDb(c *config.Config, log utils.Logger)(*sqlx.DB, error){
 	}
 
 	host := c.Postgres.PostgresqlHost
-	//dbname := c.Postgres.PostgresqlDbname dbname=%s
+	dbname := c.Postgres.PostgresqlDbname 
 	user := c.Postgres.PostgresqlUser
 	password := c.Postgres.PostgresqlPassword
 	driver := c.Postgres.PgDriver
 
-	dataSourceName := fmt.Sprintf("host=%s, port=%d, user=%s, password=%s, sslmode=disable", 
+	dataSourceName := fmt.Sprintf("host=%s, port=%d, user=%s, password=%s, dbname=%s, sslmode=disable", 
 		host,
 		port,
 		user,
 		password,
-		//dbname,
+		dbname,
 	)
 
 	db, err = sqlx.Connect(driver, dataSourceName) 
