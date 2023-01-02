@@ -62,7 +62,7 @@ func main(){
 	app.Use(Timer())
 	
 	// Start server
-	log.Fatal(app.Listen(":9000"))
+	log.Fatal(app.Listen(":8080"))
 
 }
 
