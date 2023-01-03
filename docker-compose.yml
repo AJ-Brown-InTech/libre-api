@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     volumes: 
-      - ./pgdata:/var/lib/postgresql/data  # local persistance- ./packages/database/pgdata:/var/lib/postgresql/data
+      - libre_db:/var/lib/postgresql/data  # local persistance- ./packages/database/pgdata:/var/lib/postgresql/data
     networks:
       - web_api
     extra_hosts:
