@@ -8,10 +8,13 @@ import (
 
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/database"
+	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
+
+//globals
 
 func main(){
 	configPath := utils.GetConfigPath(os.Getenv("config")) 
@@ -27,21 +30,22 @@ func main(){
 
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
-	database.NewPsqlDb(confg, appLogger)
-	appLogger.Infof("Libre API spects: AppVersion: %s, LogLevel: %s, SSLMode:%v ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL)
-	// Connect with database
 
-	// pgDB, err := database.NewPsqlDb(confg);
-	// if err != nil{
-	// 	appLogger.Errorf("Postgres Database in 2 %s", err)
-	// } else {
-	// 	appLogger.Infof("Postgres Connected, Status is: 3 %v", pgDB.Stats())
-	// }
+	//database.NewPsqlDb(confg, appLogger)
+	appLogger.Infof("Libre API Spects: AppVersion: %s, LogLevel: %s, SSLMode:%v ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL)
+	
+	// Connect with database
+	 pgDB, err := database.NewPsqlDb(confg, appLogger);
+	 if err != nil{
+	 	appLogger.Errorf("Postgres Database connection error, [ERROR]: %s", err)
+	 } else {
+	 	appLogger.Infof("Postgres Connected, [INFO]: %v", pgDB.Stats())
+	 }
+
 	 app := fiber.New(fiber.Config{
 	 	ServerHeader:         "Libre",
 	 	StrictRouting:        true,
 	 	Concurrency:          256,
-	 	ViewsLayout:          "",
 	 	ReadTimeout:          time.Second * 10,
 	 	WriteTimeout:         time.Second * 10,
 	 	IdleTimeout:          time.Second * (10 * 2),
@@ -61,9 +65,13 @@ func main(){
 	// Custom Timer middleware
 	app.Use(Timer())
 	
-	// Start server
-	log.Fatal(app.Listen(":8080"))
+	//cookie session handler
 
+	middleware.CreateCookieSession(app, appLogger)
+
+	// Start server
+	appLogger.Panicf("%v",app.Listen(":8080") )
+	
 }
 
 // Timer will measure how long it takes before a response is returned
