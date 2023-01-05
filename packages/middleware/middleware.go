@@ -33,15 +33,16 @@ func CookieAuth(app *fiber.App, log utils.Logger, endpoint string){
 	 	if err != nil {
 	 		return err
 	 	}
-	 	defer sess.Save()
+	return c.JSON(fiber.Map{"keys": sess.Keys()})
+	//  	defer sess.Save()
 
-	// 	//EXEC SET
+	// // 	//EXEC SET
 
-	 	sess.Set("name", "john")
+	//  	sess.Set("name", "john")
 
-	 	return c.JSON(fiber.Map{
-	 		"id":   sess.Get("id"),
-	 		"name": sess.Get("name"),
-	 	})
-	 })
+	//  	return c.JSON(fiber.Map{
+	//  		"id":   sess.Get("id"),
+	//  		"name": sess.Get("name"),
+	//  	})
+	  })
 }
