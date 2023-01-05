@@ -12,6 +12,9 @@ import (
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+
 )
 
 //globals
@@ -62,13 +65,12 @@ func main(){
 		AllowCredentials: true,
 	}))
 
-	// Custom Timer middleware
+	//middleware
 	app.Use(Timer())
-	
-	//cookie session handler
-
+	app.Use(logger.New())
+	app.Use(recover.New())
 	middleware.CreateCookieSession(app, appLogger)
-
+	middleware.CookieAuth(app, appLogger, "/")
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
 	
