@@ -1,4 +1,4 @@
-# libre-api => Social Media Rest Api
+# Libre (Social Media) Rest Api
 
 ### golang v1.18
 
