@@ -31,7 +31,7 @@
 - **Enviroment**
     - *Development*
         : Currently only utilizes a develpoment enviroment.
-        : Development Configuration file is located > ==/config/config-local.yml==
+        : Development Configuration file is located "**/config/config-local.yml**"
     - *Running Api*
         : Simply execute ``` make libre ``` to run the api
       
