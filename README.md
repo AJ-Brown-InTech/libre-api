@@ -19,7 +19,8 @@
 - **Packages**
     - *database*
         1. database configurations
-            : Package for connecting to postgres database.
+            : 
+            - Package for connecting to postgres database.
     - *middleware*
         1. middlware file
             : 
@@ -28,13 +29,15 @@
     - *utils*
         1. logs
             : 
-            - custom logging for REST api.
+             - custom logging for REST api.
 ---
 - **Enviroment**
     - *Development*
-        : Currently only utilizes a develpoment enviroment.
-        : Development Configuration file is located "**/config/config-local.yml**"
+        : 
+        - Currently only utilizes a develpoment enviroment.
+        - Development Configuration file is located "**/config/config-local.yml**"
     - *Running Api*
-        : Simply execute ``` make libre ``` to run the api
+        : 
+        - Simply execute ``` make libre ``` to run the api
       
  
