@@ -2,7 +2,7 @@
 
 ### This is a rest api for *libre* a social media mobile application for IOS.
 
-| Libre | Description |
+| Section | Description |
 | ----------- | ----------- |
 | Tools | Versions/Frameworks/ |
 | Packages | Api Architecture |
