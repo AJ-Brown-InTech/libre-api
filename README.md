@@ -39,5 +39,6 @@
     - *Running Api*
         : 
         - Simply execute ``` make libre ``` to run the api
-      
+
+## If you would like to get involved please reach out via email at ``` ajalantbrown@gmail.com```
  
