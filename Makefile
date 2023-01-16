@@ -8,3 +8,6 @@ cont:
 	docker-compose exec web sh 
 run:
 	docker-compose up -d --force-recreate --quiet-pull 
+
+libre:
+	go run main.go
