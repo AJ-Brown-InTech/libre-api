@@ -21,12 +21,14 @@
         1. database configurations
             : Package for connecting to postgres database.
     - *middleware*
-        1. middlware
-            : Creates a cookie sesssion.
-            : Verifies a cookie sesssion.
+        1. middlware file
+            : 
+              - Creates a cookie sesssion.
+              - Verifies a cookie sesssion.
     - *utils*
         1. logs
-            : custom logging for REST api.
+            : 
+            - custom logging for REST api.
 ---
 - **Enviroment**
     - *Development*
