@@ -33,29 +33,51 @@ func CreateCookieSession(app *fiber.App, log utils.Logger){
 }
 
 
-func MiddlwareAuth(app *fiber.App, log utils.Logger, endpoint string){
+func MiddlwareAuth(app *fiber.App, log utils.Logger){
 	store := session.New()
-	 app.Get(endpoint, func(c *fiber.Ctx) error {
+	fmt.Printf("%v", store)
+
+	 app.Use(func(c *fiber.Ctx) error{
 	 	sess, err := store.Get(c)
 	 	if err != nil {
+			log.Errorf("[ERROR] %v", err)
 	 		return err
 	 	}
-		fmt.Printf("%v", sess.ID())
-		
-	return c.JSON(fiber.Map{
-		"keys": sess.Keys(),
-		"name": sess.Get("Name"),
-		"id":   sess.Get("user-session"),
-	})
-	//  	defer sess.Save()
-
-	// // 	//EXEC SET
-
-	//  	sess.Set("name", "john")
-
-	//  	return c.JSON(fiber.Map{
-	//  		"id":   sess.Get("id"),
-	//  		"name": sess.Get("name"),
-	//  	})
+	
+		// return c.JSON(fiber.Map{
+		// 	"keys": sess.Keys(),
+		// 	"name": sess.Get("Name"),
+		// 	"id":   sess.Get("user-session"),
+		// })
+			
+		if sess.Get("user-session") == nil{
+			return c.JSON(fiber.Map{
+				"message": "unauthenticated",
+				"authenticated": false,
+			})
+		}
+		return c.Next()
 	  })
 }
+
+// AuthReq middleware
+// func AuthReq() func(*fiber.Ctx) {
+//     cfg := basicauth.Config{
+//         Users: map[string]string{
+//           config.Config("USERNAME"): config.Config("PASSWORD"),
+//         },
+//       }
+//     err := basicauth.New(cfg);
+//     return err
+// }
+
+//  	defer sess.Save()
+
+// // 	//EXEC SET
+
+//  	sess.Set("name", "john")
+
+//  	return c.JSON(fiber.Map{
+//  		"id":   sess.Get("id"),
+//  		"name": sess.Get("name"),
+//  	})

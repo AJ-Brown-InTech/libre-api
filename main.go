@@ -68,8 +68,8 @@ func main(){
 	//middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
-	middleware.CreateCookieSession(app, appLogger)
-	//middleware.MiddlwareAuth(app, appLogger, "/")
+	//middleware.CreateCookieSession(app, appLogger)
+	middleware.MiddlwareAuth(app, appLogger)
 	
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
