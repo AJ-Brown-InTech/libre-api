@@ -1,8 +1,9 @@
 package middleware
 
 import (
+	"fmt"
 	"time"
-
+	"math/rand"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -17,23 +18,35 @@ func CreateCookieSession(app *fiber.App, log utils.Logger){
 			log.Warningf("Cookie session not available, [WARNING]: %v", err)
 	 		return err
 	 	}
-	 	sess.Set("user-session", "1")
-		sess.SetExpiry((1 * time.Minute))
-         sess.Save()
-		 log.Warningf("Cookie session created, [INFO]: %v", sess)
-	 	return c.Next()
+	 	sess.Set("user-session", rand.Int())
+		sess.SetExpiry((30 * time.Second))
+        sess.ID() 
+		log.Infof("Cookie session created, [INFO]: %s", "Succesful Session Created!")
+	
+		   c.JSON(fiber.Map{
+		 	"message": "Welcome to libre",
+		 	"Token":   sess.Get("user-session"),
+		 	"authenticated": true,
+		 })
+		return sess.Save()
 	 })
 }
 
 
-func CookieAuth(app *fiber.App, log utils.Logger, endpoint string){
+func MiddlwareAuth(app *fiber.App, log utils.Logger, endpoint string){
 	store := session.New()
 	 app.Get(endpoint, func(c *fiber.Ctx) error {
 	 	sess, err := store.Get(c)
 	 	if err != nil {
 	 		return err
 	 	}
-	return c.JSON(fiber.Map{"keys": sess.Keys()})
+		fmt.Printf("%v", sess.ID())
+		
+	return c.JSON(fiber.Map{
+		"keys": sess.Keys(),
+		"name": sess.Get("Name"),
+		"id":   sess.Get("user-session"),
+	})
 	//  	defer sess.Save()
 
 	// // 	//EXEC SET
