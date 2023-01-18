@@ -6,6 +6,10 @@ WORKDIR /go/src/github.com/AJ-Brown-InTech/libre-api/
 COPY . .
 # Obtain the package needed to run code. Alternatively use GO Modules. 
 RUN go get -u github.com/lib/pq
+# used for live reloading changes
+RUN go install github.com/cosmtrek/air@latest
+#install all that other ish (packages)
+RUN go mod tidy
 # Compile the binary exe for our app.
 RUN go build -o main .
 # Start the application.
