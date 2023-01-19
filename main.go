@@ -7,13 +7,14 @@ import (
 	"time"
 
 	"github.com/AJ-Brown-InTech/libre-ra/config"
-	"github.com/AJ-Brown-InTech/libre-ra/packages/database"
+	//"github.com/AJ-Brown-InTech/libre-ra/packages/database"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	
 
 )
 
@@ -37,13 +38,13 @@ func main(){
 	//database.NewPsqlDb(confg, appLogger)
 	appLogger.Infof("Libre API Spects: AppVersion: %s, LogLevel: %s, SSLMode:%v ", confg.Server.AppVersion, confg.Logger.Level, confg.Server.SSL)
 	
-	// Connect with database
-	 pgDB, err := database.NewPsqlDb(confg, appLogger);
-	 if err != nil{
-	 	appLogger.Errorf("Postgres Database connection error, [ERROR]: %s", err)
-	 } else {
-	 	appLogger.Infof("Postgres Connected, [INFO]: %v", pgDB.Stats())
-	 }
+	// // Connect with database
+	//  pgDB, err := database.NewPsqlDb(confg, appLogger);
+	//  if err != nil{
+	//  	appLogger.Errorf("Postgres Database connection error, [ERROR]: %s", err)
+	//  } else {
+	//  	appLogger.Infof("Postgres Connected, [INFO]: %v", pgDB.Stats())
+	//  }
 
 	 app := fiber.New(fiber.Config{
 	 	ServerHeader:         "Libre",

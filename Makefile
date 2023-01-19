@@ -8,6 +8,13 @@ cont:
 	docker-compose exec web sh 
 run:
 	docker-compose up -d --force-recreate --quiet-pull 
-
-libre:
+#manual run
+man:
 	go run main.go
+#hot reload run
+libre:
+	air
+kill:
+	fuser -k 8080/tcp
+
+	

@@ -59,8 +59,8 @@ func NewPsqlDb(c *config.Config, log utils.Logger)(*sqlx.DB, error){
 	}
 
 	defer db.Close()
-	db.SetMaxOpenConns(maxOpenConns)//not sure how many but from what i read 100 is max before performance becomes an issue
-	db.SetMaxIdleConns(maxIdleConns)//idle just added a few incase some connections are hung up
+	db.SetMaxOpenConns(maxOpenConns) //not sure how many but from what i read 100 is max before performance becomes an issue
+	db.SetMaxIdleConns(maxIdleConns) //idle just added a few incase some connections are hung up
 	db.SetConnMaxLifetime(connMaxLifetime * time.Second)
 	db.SetConnMaxIdleTime(connMaxIdleTime * time.Second)
 

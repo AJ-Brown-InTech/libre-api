@@ -9,8 +9,13 @@ RUN go get -u github.com/lib/pq
 # used for live reloading changes
 RUN go install github.com/cosmtrek/air@latest
 #install all that other ish (packages)
-RUN go mod tidy
+RUN go install github.com/cosmtrek/air@latest
+
+COPY go.mod go.sum ./
+RUN go mod download
+
 # Compile the binary exe for our app.
 RUN go build -o main .
 # Start the application.
-CMD ["./main"]
+#CMD ["./main"]
+CMD ["air", "-c", ".air.toml"]
