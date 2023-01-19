@@ -1,71 +1,70 @@
 package middleware
 
 import (
-	//"fmt"
-	"time"
+
 	"math/rand"
+	"time"
+	 "strconv"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
- 	"github.com/gofiber/redirect/v2"
 )
 
+const  KEY = "libre-session"
+
+func rando() string{
+	first := rand.Int()
+	second := rand.Int()
+	third := (first * second / 10) / 2
+	final := "libre" + strconv.Itoa(third) + "erbil"
+	
+	return final
+
+}
 func CreateCookieSession(app *fiber.App, log utils.Logger){
+	// storage instance for session cookie
+	store := session.New()
+	app.Use(func(c *fiber.Ctx) error {
+		//create session
+		store.CookieHTTPOnly =  true
+		store.CookieSecure = true
+		store.KeyLookup = KEY
+		store.Expiration = 30 * time.Second
+		store.KeyGenerator = rando 
+		
+		// store session	
+		session, err := store.Get(c)
+		if err != nil{
+			log.Errorf("[ERROR] %v,", err)
+			return err
+		}
+		log.Infof("Success, %s", "session created. You're authorized now!")
+		return session.Save()
+  })
+}
+
+
+func SessionAuth(app *fiber.App, log utils.Logger){
+	//access storage instance
 	store := session.New()
 
-	app.Use(func(c *fiber.Ctx) error {
-	 	sess, err := store.Get(c)
-	 	if err != nil {
-			log.Warningf("Cookie session not available, [WARNING]: %v", err)
-	 		return err
-	 	}
-	 	sess.Set("user-session", rand.Int())
-		sess.SetExpiry((30 * time.Second))
-        sess.ID() 
-		log.Infof("Cookie session created, [INFO]: %s", "Succesful Session Created!")
+	//obtain the session
+	app.Use(func(c *fiber.Ctx) string {
+	session, err:= store.Get(c);
 
-		   c.JSON(fiber.Map{
-		 	"message": "Welcome to libre",
-		 	"Token":   sess.Get("user-session"),
-		 	"authenticated": true,
-		 })
-		
-		return sess.Save()
-	 })
+	//check if its present => if present send to home else send to unauthorized page
+	if session.Get(KEY) == nil {
+		log.Errorf("%v", err)
+		return "no auth" 
+	} else {
+		session.Regenerate()
+		//route = c.OriginalURL()
+		log.Infof("%v",  c.Route().Path) 
+	
+		 c.Next()
+		 return c.OriginalURL()
+	}
+	
+		})
 }
 
-
-func MiddlwareAuth(app *fiber.App, log utils.Logger){
-	// store := session.New()
-	// fmt.Printf("%v", store)
-
-	//  app.Use(func(c *fiber.Ctx) error{
-	//  	sess, err := store.Get(c)
-	//  	if err != nil {
-	// 		log.Errorf("[ERROR]Session Authentication error: %v", err)
-	//  		return err
-	//  	}
-		
-	// if sess.Get("user-session") == nil{
-	// 		return c.JSON(fiber.Map{
-	// 			"message": "unauthenticated try logging in",
-	// 			"authenticated": false,
-	// 		})
-	// 	}
-
-	// 	return c.Next()
-	//   })
-
-	app.Use(redirect.New(redirect.Config{
-		Rules: map[string]string{
-		  "/":   "/home",
-		},
-		StatusCode: 301,
-	  }))
-
-	  log.Infof("log, %v ", app )
-
-	  app.Get("/new", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	  })
-}

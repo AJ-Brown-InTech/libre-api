@@ -11,10 +11,8 @@ run:
 #manual run
 man:
 	go run main.go
-#hot reload run
-libre:
-	air
 kill:
-	fuser -k 8080/tcp
+
+	kill -9 (lsof -i :8080 | grep PID)
 
 	

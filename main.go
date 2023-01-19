@@ -9,13 +9,12 @@ import (
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	//"github.com/AJ-Brown-InTech/libre-ra/packages/database"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
+	"github.com/AJ-Brown-InTech/libre-ra/packages/routes"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	
-
 )
 
 //globals
@@ -69,10 +68,14 @@ func main(){
 	//middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
-	//middleware.CreateCookieSession(app, appLogger)
-	middleware.MiddlwareAuth(app, appLogger)
-	
+
+	middleware.CreateCookieSession(app, appLogger)
+	middleware.SessionAuth(app, appLogger)
+
+	routes.RouteManager(app, appLogger)
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
 	
 }
+
+

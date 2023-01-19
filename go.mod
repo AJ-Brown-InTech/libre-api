@@ -18,6 +18,7 @@ require (
 	github.com/creack/pty v1.1.18 // indirect
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/gofiber/adaptor/v2 v2.1.31 // indirect
 	github.com/gofrs/uuid v4.3.1+incompatible // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/howeyc/fsnotify v0.9.0 // indirect
