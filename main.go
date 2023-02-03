@@ -8,7 +8,6 @@ import (
 
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	//"github.com/AJ-Brown-InTech/libre-ra/packages/database"
-	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/routes"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	"github.com/gofiber/fiber/v2"
@@ -68,9 +67,6 @@ func main(){
 	//middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
-
-	middleware.CreateCookieSession(app, appLogger)
-	middleware.SessionAuth(app, appLogger)
 
 	routes.RouteManager(app, appLogger)
 	// Start server
