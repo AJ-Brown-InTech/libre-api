@@ -30,14 +30,38 @@ func RouteManager(app *fiber.App, log utils.Logger){
 }
 
 // Handlers
-func Login(c *fiber.Ctx) error {		
+func Login(c *fiber.Ctx) error {	
+	var response bool; //db response  either data(user) is present or not
 	user := new(User)
-	if err := c.BodyParser(user); err !=nil {
-		fmt.Printf("%v", err)
+	err := c.BodyParser(user)
+	if err !=nil {
+		
+		fmt.Printf("EROROROROROR%v", err)
 	}
-	//fmt.Printf("n\test %v", c.Request())
-	data := c.BodyParser(user)
-	// fmt.Printf("test %v", user.Name)
-	 fmt.Printf("test %v", data)
+
+	//login params
+	email := user.Email
+	username := user.Name
+	password := user.Password
+
+	if password == ""{
+
+		return c.JSON(fiber.Map{"message": "Password needed"})
+	}
+	if email == "" && username == ""{
+		
+		return c.JSON(fiber.Map{"message":"Email or Username needed"})
+	}
+	
+	if(email != "" || username != ""){
+		//run query to check is user exist 
+	
+		//if user present return user id and token to store on device & set response to true
+		//else set response to false with error message
+		response = false
+	} 
+			
+	
+	fmt.Printf("testone1111 %v", user)
 	return c.Context().Err()
 }

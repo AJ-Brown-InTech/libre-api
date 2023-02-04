@@ -16,5 +16,5 @@ kill:
 	kill -9 (lsof -i :8080 | grep PID)
 post: 
 	curl -X POST -H "Content-Type: application/json" \
-    -d '{"name": 5, "email": "Hello World", "password": "Post body."}' \
+    -d '{"name": "name", "email": "", "password": "password"}' \
     http://localhost:8080/login
