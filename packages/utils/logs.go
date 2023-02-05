@@ -2,8 +2,9 @@
 package utils
 
 import (
-	
+	"io"
 	"os"
+
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/sirupsen/logrus"
 )
@@ -73,14 +74,18 @@ func (x *apiLogger) InitLogger()  {
 	
 	logLevel := x.getLoggerLevel(x.cfg)
 	file, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+
     if err != nil {
         x.base.Fatal(err)
     }
+
+	
 	logrus.SetLevel(logLevel)
 	x.base.WriterLevel(logLevel)
-	logrus.SetOutput(file)
-	logrus.SetOutput(os.Stdout)
-	
+
+	//log output (stdout)
+output := io.MultiWriter(file, os.Stdout)
+	logrus.SetOutput(output)
 }
 
 //Logger methods dont wanna add more becasue its redundant
