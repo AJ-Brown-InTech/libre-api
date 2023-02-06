@@ -4,9 +4,10 @@ package utils
 import (
 	"io"
 	"os"
-
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/crypto/bcrypt"
+	
 )
 
 //Logger methods interface
@@ -64,7 +65,7 @@ func (x *apiLogger) InitLogger()  {
     Formatter.FullTimestamp = true
 	Formatter.DisableColors = false
     logrus.SetFormatter(Formatter)
-	} else{
+	} else {
 	Formatter := new(logrus.TextFormatter)
     Formatter.TimestampFormat = "02-01-2006 15:04:05"
     Formatter.FullTimestamp = true
@@ -79,12 +80,11 @@ func (x *apiLogger) InitLogger()  {
         x.base.Fatal(err)
     }
 
-	
 	logrus.SetLevel(logLevel)
 	x.base.WriterLevel(logLevel)
 
 	//log output (stdout)
-output := io.MultiWriter(file, os.Stdout)
+	output := io.MultiWriter(file, os.Stdout)
 	logrus.SetOutput(output)
 }
 
@@ -107,4 +107,20 @@ func (x *apiLogger) Errorf(format string, args ...interface{}) {
 
 func (x *apiLogger) Panicf(format string, args ...interface{}) {
 	logrus.Panicf(format, args)
+}
+
+
+func EncodeData(data string, log Logger)(string, error){
+	//take in the data as bytes and scrammble that bad boy
+	log.Infof("Creating a hash...")
+	hash, err := bcrypt.GenerateFromPassword([]byte(data), 24)
+	log.Infof("hash created...")
+		return string(hash), err
+}
+
+func CompareData(data, hash string, log Logger) bool {
+	//take in the data as bytes and unscrammble that bad boy
+	log.Infof("Comparing hash...")
+ 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(data))
+		return err == nil
 }

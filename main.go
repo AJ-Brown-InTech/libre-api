@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"fmt"
 	"log"
 	"os"
 	"time"
@@ -67,7 +66,8 @@ func main(){
 	//middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
-
+	
+	//Routes/RouteManager
 	routes.RouteManager(app, appLogger)
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
