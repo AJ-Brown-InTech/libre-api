@@ -15,6 +15,7 @@
     3. [Docker](https://docs.docker.com/get-docker/)
     4. [Postgres](https://www.postgresql.org/download/)
     5. [Air(Server hot reload)](https://github.com/cosmtrek/air)
+    6. [Migrate](https://github.com/golang-migrate/migrate)
 
 ---
 - **Packages**
@@ -22,6 +23,10 @@
         1. database configurations
             : 
             - Package for connecting to postgres database.
+        1. migrations 
+            : 
+            - database migrations
+            -  ex.(migrate create -ext sql -dir database/migrations/ -seq init_create_users)
     - *middleware*
         1. middlware file
             : 
