@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"time"
-
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/database"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/routes"
@@ -14,8 +13,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
-
-//globals
 
 func main(){
 	configPath := utils.GetConfigPath(os.Getenv("config")) 
@@ -68,7 +65,7 @@ func main(){
 	app.Use(recover.New())
 	
 	//Routes/RouteManager
-	routes.RouteManager(app, appLogger)
+	routes.RouteManager(app, appLogger, pgDB)
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
 	
