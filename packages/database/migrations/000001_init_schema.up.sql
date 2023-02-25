@@ -1,27 +1,19 @@
-CREATE TABLE IF NOT EXISTS Account(
-   user_id int UNIQUE INDEX PRIMARY KEY,
-   uuid VARCHAR(30) UNIQUE NOT NULL,
+CREATE TABLE IF NOT EXISTS Accounts(
+   user_id INTEGER NOT NULL,
+   uuid VARCHAR(50) UNIQUE NOT NULL,
    dob DATE NOT NULL,
    username VARCHAR (25) UNIQUE NOT NULL,
    first_name VARCHAR (25)  NULL DEFAULT NULL,
    last_name VARCHAR (25)  NULL DEFAULT NULL,
    password VARCHAR (50) NOT NULL,
    email VARCHAR(50) UNIQUE NOT NULL,
-   rating INT NOT NULL,
-   post []INT,
+   rating INTEGER DEFAULT 0,
    active BOOLEAN,
    bio text NULL DEFAULT NULL,
    link VARCHAR(50) null DEFAULT NULL,
-   verfied BOOLEAN,
-   creadted_at DATETIME NOT NULL,
-   updated_at DATETIME NOT NULL,
+   verified BOOLEAN,
+   created_at DATE NOT NULL,
+   updated_at DATE NOT NULL,
+   PRIMARY KEY(user_id),
+   FOREIGN KEY(uuid)
 )
-
-CREATE TABLE IF NOT EXISTS Followers (
-user_id int NOT NULL
-follower_id int NOT NULL
-FOREIGN KEY (user_id) REFERENCES Account(user_id)
-FOREIGN KEY (follower_id) REFERENCES Account(user_id)
-)
-
-

@@ -9,7 +9,7 @@ type Account struct{
 	UserName 	string `json:"username" db:username`
 	UserId 		int `json:"user_id" db:user_id`
 	Uuid 		string `json:"uuid" db:"uuid"`
-	Dob			time.Time `json:"dob" db:"dob"`
+	Dob			string `json:"dob" db:"dob"`
 	FirstName 	string `json:"first_name,omitempty" db:first_name`
 	LastName 	string `json:"last_name,omitempty" db:last_name`
 	Password 	string `json:"password" db:"password"`
