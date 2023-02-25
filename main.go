@@ -40,6 +40,11 @@ func main(){
 	  	appLogger.Infof("Postgres Connected, [INFO]: %v", pgDB.Stats())
 	  }
 
+	  err = pgDB.Ping()
+	  if err != nil {
+		appLogger.Errorf("Failed to ping, %v", err)
+	  }
+
 	 app := fiber.New(fiber.Config{
 	 	ServerHeader:         "Libre",
 	 	StrictRouting:        true,

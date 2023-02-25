@@ -74,6 +74,7 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		 	log.Errorf("Register error with password length")
 		 	return c.JSON(fiber.Map{"message": "Password too short."})
 		 }
+		 log.Infof("%v",user.Dob)
 		 //data cleanup before the db query
 		 user.Uuid = uuid.New().String()
 		 user.Rating = 0
