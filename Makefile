@@ -1,20 +1,15 @@
-run-api:
-	docker pull ajalanbrown/libre-api
-	docker run --platform linux/amd64 -it ajalanbrown/libre-api bash --net host
-cont:
-	docker pull ajalanbrown/libre-api
-	cd docker/
-	docker compose up 
-	docker-compose exec web sh 
-run:
+
+run-docker:
 	docker-compose up -d --force-recreate --quiet-pull 
-#manual run
-man:
+run-local:
 	go run main.go
 kill:
-
 	kill -9 (lsof -i :8080 | grep PID)
 post: 
 	curl -X POST -H "Content-Type: application/json" \
-    -d '{"username": "123456", "email": "email@gmail.com", "password": "password", "birthdate":"01/01/2021", "firstName": "first", "lastName":"last"}' \
+    -d '{"username": "thisisatest", "email": "ajalantbrown@yahoo.com", "password": "password1234", "dob":"01/01/2021"}' \
     http://localhost:8080/register
+up:
+	migrate -path packages/database/migrations -database "postgresql://postgres:postgres@localhost:5432/libre?sslmode=disable" -verbose up
+down:
+	migrate -path packages/database/migrations -database "postgresql://postgres:postgres@localhost:5432/libre?sslmode=disable" -verbose down

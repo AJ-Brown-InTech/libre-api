@@ -1,13 +1,13 @@
-//utilities == lib for reusable code
+// utilities == lib for reusable code
 package utils
 
 import (
 	"io"
+	"net/mail"
 	"os"
 	"github.com/AJ-Brown-InTech/libre-ra/config"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
-	
 )
 
 //Logger methods interface
@@ -123,4 +123,10 @@ func CompareData(data, hash string, log Logger) bool {
 	log.Infof("Comparing hash...")
  	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(data))
 		return err == nil
+}
+
+func Valid(email string) bool {
+    _, err := mail.ParseAddress(email)
+	return err == nil
+   
 }
