@@ -85,13 +85,13 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 
 		//create an account for user
 		 query := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
-		 insertStatement := query.Insert("Account").
+		 insertStatement := query.Insert("Accounts").
 		 	Columns("username", "uuid", "dob", "password", "email", "rating", "active", "verified", "created_at", "updated_at").
 		 	Values(user.UserName, user.Uuid, user.Dob, user.Password, user.Email, user.Rating, user.Active, user.Verfied, user.CreadtedAt, user.UpdatedAt)
 		 _, err = insertStatement.Exec()
 		 if err != nil {
 		 	log.Errorf("Database doesn't like your input try again, %v", err)
-		 	return c.JSON(fiber.Map{"message": "Couldn't create an account, try diffrent fields."})
+		 	return c.JSON(fiber.Map{"message": "Couldn't create an account, try different fields."})
 		 }
 		 
 		 log.Infof("TEST!!!:%v")
