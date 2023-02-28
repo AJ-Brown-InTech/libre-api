@@ -1,6 +1,6 @@
-# Libre (Social Media) Rest Api
+# Libra (Social Media) Rest Api
 
-### This is a rest api for *libre* a social media mobile application for IOS.
+### This is a rest api for *Libra* a social media mobile application for IOS.
 
 | Section | Description |
 | ----------- | ----------- |
@@ -20,22 +20,10 @@
 ---
 - **Packages**
     - *database*
-        1. database configurations
-            : 
-            - Package for connecting to postgres database.
-        1. migrations 
-            : 
-            - database migrations
-            -  ex.(migrate create -ext sql -dir database/migrations/ -seq init_create_users)
-    - *middleware*
-        1. middlware file
-            : 
-              - Creates a cookie sesssion.
-              - Verifies a cookie sesssion.
     - *utils*
-        1. logs
-            : 
-             - custom logging for REST api.
+    - *middleware*
+    - *models*
+    - *routes*
 ---
 - **Enviroment**
     - *Development*
@@ -46,9 +34,6 @@
         : 
         - Simply execute ``` make libre ``` to run the api manually
         - or run ```air``` 
-    - *Weird*
-        :
-        - running air and not closing the server ``` CTRL C``` when closing leaves server running and will have to manually run ``` lsof -i :8080 ``` then whatever the PID is pass it into ```kill -9 <PID>``` this kills the proccess if using **air**
-
-## If you would like to get involved please reach out via email at ``` ajalantbrown@gmail.com```
- 
+        - You can also pull down the docker container which is also public in the registry.
+    
+## If you would like to get involved please feel free reach out via email at ``` ajalantbrown@gmail.com```
