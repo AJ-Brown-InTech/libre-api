@@ -12,7 +12,8 @@ func RouteManager(app *fiber.App, log utils.Logger, db *sqlx.DB){
 	app.Post("/login", Login(db, log))
 	//Register
 	app.Post("/register", Register(db, log))
-
+	//Home(dashboard)
+	app.Get("/home/{id}", Home(db, log))
 	//api := app.Group("/*", middleware.SessionAuth(app, log)) 
 	// app.Group("/",func(c *fiber.Ctx) error {
 	// 	// err := c.App()lo
