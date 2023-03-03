@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"time"
-
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,10 +14,10 @@ func CreateSession(c *fiber.Ctx, name string, value string){
 	c.Cookie(cookie)
 }
 
-func SessionVerify(c *fiber.Ctx)error{
-	user := c.Cookies("name")
-	if len(user) > 0{
-		return nil
-	}
-	return fiber.ErrLocked
+func SessionVerify(c *fiber.Ctx)(string, error){
+	userUuid := c.Cookies("aj")
+	 if len(userUuid) > 0{
+	 	return userUuid, nil
+	 }
+	return "", c.Context().Err()	
 }

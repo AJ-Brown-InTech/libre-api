@@ -3,8 +3,8 @@ package routes
 import (
 	"time"
 	//"encoding/json"
-	"github.com/AJ-Brown-InTech/libre-ra/packages/models"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
+	"github.com/AJ-Brown-InTech/libre-ra/packages/models"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/utils"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +12,15 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-
+//API Home Page
+func API(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error{
+	return func(c *fiber.Ctx) error {
+	
+		middleware.SessionVerify(c)
+		return 	c.JSON(fiber.Map{
+				"message": "Welcome to libre.",
+				"instruction": "Login or register to utilize api"})}
+}
 
 // user registeration for an account
 func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
@@ -63,8 +71,46 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 	}
 }
 
-func Home(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
+// User log into account
+func Login(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
+		userUuid, _ := middleware.SessionVerify(c)
+		if len(userUuid) > 0 {
+			//redirect to user account
+		}
+		user := new(models.Account) // read in datat
+		err := c.BodyParser(&user);
+		if  err != nil {
+			log.Errorf("Login error. Can't read user input, %v", err)
+			return err
+		}
+
+		var account models.Account
+		err = db.Get(&account,"SELECT * FROM accounts WHERE username = $1 AND password = $2", user.UserName, user.Password )
+		if err != nil {
+			log.Errorf("Error retrieving account from dataase")
+			return  err
+		}
+
+		if account.UserName == user.UserName && account.Password == user.Password{
+			// get user by id and return their account
+		}
+		
 		return c.Context().Err()
 	}
 }
+
+func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
+ 	return func(c *fiber.Ctx) error {
+		var id models.ID
+		 c.ParamsParser(&id) // "{"id": 111}"
+		log.Infof(" TEST: %v", id)
+		
+		var user models.Account
+		err := db.Select(&user, "SELECT * FROM accounts WHERE uuid = $1", id)
+		if err !=nil{
+			log.Errorf("Error fetching user ")
+		}
+		return c.JSON(user)
+		}		
+ }
