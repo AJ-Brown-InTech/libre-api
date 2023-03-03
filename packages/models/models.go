@@ -29,7 +29,3 @@ type Followers struct{
 	UserId 		int `json:"user_id" db:user_id`
 	FollowerId 	int `json:"follower_id" db:"follower_id"`
 }
-
-type ID struct {
-	ID uint `params:"id"`
-}
