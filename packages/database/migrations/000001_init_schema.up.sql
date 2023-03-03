@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS Accounts(
     link VARCHAR(50) NULL DEFAULT NULL,
     verified BOOLEAN,
     created_at DATE NOT NULL,
-    updated_at DATE NOT NULL
+    updated_at DATE NOT NULL,
+    post INTEGER[]
 )
