@@ -12,7 +12,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/fiber/v2/middleware/cache"
 )
 
 func main(){
@@ -69,7 +68,6 @@ func main(){
 	//middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
-	app.Use(cache.New())
 	
 	//Routes/RouteManager
 	routes.RouteManager(app, appLogger, pgDB)
