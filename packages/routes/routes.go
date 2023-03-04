@@ -1,7 +1,10 @@
 package routes
 
 import (
+	"fmt"
+	"os"
 	"time"
+
 	//"encoding/json"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/middleware"
 	"github.com/AJ-Brown-InTech/libre-ra/packages/models"
@@ -10,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	//"gopkg.in/guregu/null.v3"
 )
 
 //API Home Page
@@ -76,26 +80,31 @@ func Login(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
 		userUuid, _ := middleware.SessionVerify(c)
 		if len(userUuid) > 0 {
+			log.Infof("TEST:%v", userUuid)
 			//redirect to user account
 		}
-		user := new(models.Account) // read in datat
+		var user models.Account
 		err := c.BodyParser(&user);
 		if  err != nil {
 			log.Errorf("Login error. Can't read user input, %v", err)
 			return err
 		}
+		// log.Infof("TEST:%v", user.UserName)
+		// log.Infof("TEST:%v", user.Password)
 
-		var account models.Account
-		err = db.Get(&account,"SELECT * FROM accounts WHERE username = $1 AND password = $2", user.UserName, user.Password )
+		account := &models.Account{}
+		query := fmt.Sprintf("SELECT * FROM accounts where username = '%v' AND password = '%v' limit 1", user.UserName, user.Password)
+		err = db.Get(account,query)
+		//QueryRow("SELECT * FROM accounts where username = $1 and password = $2 limit 1", user.UserName, user.Password)//(&account,"SELECT * FROM accounts where username = $1 and password = $2 limit 1", user.UserName, user.Password )
 		if err != nil {
-			log.Errorf("Error retrieving account from dataase")
+			log.Errorf("Error retrieving account from database")
 			return  err
 		}
-
-		if account.UserName == user.UserName && account.Password == user.Password{
-			// get user by id and return their account
-		}
 		
+			host:= os.Getenv("HOST")
+			user_account := host + "/account/" + account.Uuid
+			return c.Redirect(user_account)
+	
 		return c.Context().Err()
 	}
 }
