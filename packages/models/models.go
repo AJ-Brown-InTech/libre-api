@@ -32,5 +32,5 @@ type Followers struct{
 }
 
 type ID struct {
-	ID uint `params:"id"`
+	ID string `params:"id"`
 }

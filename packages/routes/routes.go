@@ -89,13 +89,10 @@ func Login(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 			log.Errorf("Login error. Can't read user input, %v", err)
 			return err
 		}
-		// log.Infof("TEST:%v", user.UserName)
-		// log.Infof("TEST:%v", user.Password)
-
+	
 		account := &models.Account{}
 		query := fmt.Sprintf("SELECT * FROM accounts where username = '%v' AND password = '%v' limit 1", user.UserName, user.Password)
 		err = db.Get(account,query)
-		//QueryRow("SELECT * FROM accounts where username = $1 and password = $2 limit 1", user.UserName, user.Password)//(&account,"SELECT * FROM accounts where username = $1 and password = $2 limit 1", user.UserName, user.Password )
 		if err != nil {
 			log.Errorf("Error retrieving account from database")
 			return  err
@@ -113,13 +110,16 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
  	return func(c *fiber.Ctx) error {
 		var id models.ID
 		 c.ParamsParser(&id) // "{"id": 111}"
-		log.Infof(" TEST: %v", id)
+		log.Infof(" TEST: %v", id.ID)
 		
-		var user models.Account
-		err := db.Select(&user, "SELECT * FROM accounts WHERE uuid = $1", id)
-		if err !=nil{
-			log.Errorf("Error fetching user ")
+		account := &models.Account{}
+		query := fmt.Sprintf("SELECT * FROM accounts where uuid = '%s' limit 1", id.ID)
+		err := db.Get(account,query)
+		if err != nil {
+			log.Errorf("Error retrieving account from database")
+			return  err
 		}
-		return c.JSON(user)
+		log.Infof(" TEST: %v", account)
+		return c.JSON(account)
 		}		
  }
