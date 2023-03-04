@@ -143,10 +143,8 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 			log.Errorf("Login error. Can't read user input, %v", err)
 			return err
 		}
-	   
-
 	   sb := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
-	   updateStatement := sb.Update("Accounts").SetMap(payload)
+	   updateStatement := sb.Update("accounts").SetMap(payload).Where(sq.Eq{"uuid":id.ID})
 	   _, err = updateStatement.Exec()
 	   if err != nil {
 		   log.Errorf("Database doesn't like your input try again, %v", err)
@@ -161,6 +159,32 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		   return  err
 	   }
 	   log.Infof(" TEST: %v", account)
+	   return c.JSON(account)
+	   }		
+}
+
+func DeleteAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+	   var id models.ID
+		c.ParamsParser(&id) // "{"id": 111}"
+	   
+	   account := &models.Account{}
+	   query := fmt.Sprintf("SELECT * FROM accounts where uuid = '%s' limit 1", id.ID)
+	   err := db.Get(account,query)
+	   if err != nil {
+		   log.Errorf("Error retrieving account from database")
+		   return  err
+	   }
+	   
+	   account.Active = false
+	   sb := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
+	   updateStatement := sb.Update("Accounts").Set("active",account.Active ).Where(sq.Eq{"uuid":id.ID})
+	   _, err = updateStatement.Exec()
+	   if err != nil {
+		   log.Errorf("Database doesn't like your input try again, %v", err)
+		   return c.JSON(fiber.Map{"message": "deactivate account in database error"})
+	   }
+	   
 	   return c.JSON(account)
 	   }		
 }
