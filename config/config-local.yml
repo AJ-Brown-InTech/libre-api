@@ -22,6 +22,3 @@ postgres:
   PostgresqlSslmode: false
   PgDriver: pgx
 
-session:
-  Name: user-session
-  Expire: 3600

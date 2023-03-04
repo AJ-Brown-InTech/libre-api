@@ -5,8 +5,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jmoiron/sqlx"
 )
-
+//const HOST = "http://localhost:8080" 
 func RouteManager(app *fiber.App, log utils.Logger, db *sqlx.DB){
+	
 	app.Get("/",API(db,log))
 	app.Post("/login", Login(db, log))
 	app.Post("/register", Register(db, log))

@@ -2,7 +2,6 @@ package routes
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	//"encoding/json"
@@ -78,31 +77,27 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 // User log into account
 func Login(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		userUuid, _ := middleware.SessionVerify(c)
+		userUuid, err := middleware.SessionVerify(c)
+		host :=  c.BaseURL()
 		if len(userUuid) > 0 {
-			log.Infof("TEST:%v", userUuid)
-			//redirect to user account
+			//redirect to user account 
+			c.Redirect(host + "/account/" + userUuid)
 		}
-		var user models.Account
-		err := c.BodyParser(&user);
-		if  err != nil {
-			log.Errorf("Login error. Can't read user input, %v", err)
-			return err
+		user :=  models.Account{}
+		body := c.BodyParser(&user)
+		if  body != nil {
+			log.Errorf("Login error. Can't read user input, %v", body)
+			return body
 		}
 	
 		account := &models.Account{}
-		query := fmt.Sprintf("SELECT * FROM accounts where username = '%v' AND password = '%v' limit 1", user.UserName, user.Password)
+		query := fmt.Sprintf("SELECT * FROM accounts where username = '%s' AND password = '%s' LIMIT 1", user.UserName, user.Password)
 		err = db.Get(account,query)
 		if err != nil {
 			log.Errorf("Error retrieving account from database")
 			return  err
-		}
-		
-			host:= os.Getenv("HOST")
-			user_account := host + "/account/" + account.Uuid
-			return c.Redirect(user_account)
-	
-		return c.Context().Err()
+		}	
+			return c.Redirect(host + "/account/" + account.Uuid)
 	}
 }
 
@@ -110,24 +105,18 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
  	return func(c *fiber.Ctx) error {
 		var id models.ID
 		 c.ParamsParser(&id) // "{"id": 111}"
-		log.Infof(" TEST: %v", id.ID)
 		
-		//read in body
-		var user models.Account
-		err := c.BodyParser(&user);
-		if  err != nil {
-			log.Errorf("Login error. Can't read user input, %v", err)
-			return err
-		}
-
 		account := &models.Account{}
 		query := fmt.Sprintf("SELECT * FROM accounts where uuid = '%s' limit 1", id.ID)
-		err = db.Get(account,query)
+		err := db.Get(account,query)
 		if err != nil {
 			log.Errorf("Error retrieving account from database")
 			return  err
 		}
-		log.Infof(" TEST: %v", account)
+		
+		if !account.Active {
+			c.JSON(fiber.Map{"active": account.Active})
+		   }
 		return c.JSON(account)
 		}		
  }
@@ -144,7 +133,9 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 			return err
 		}
 	   sb := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
-	   updateStatement := sb.Update("accounts").SetMap(payload).Where(sq.Eq{"uuid":id.ID})
+	   updateStatement := sb.Update("accounts").SetMap(payload).
+	   Set("updated_at",time.Now()).
+	   Where(sq.Eq{"uuid":id.ID})
 	   _, err = updateStatement.Exec()
 	   if err != nil {
 		   log.Errorf("Database doesn't like your input try again, %v", err)
@@ -157,6 +148,9 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 	   if err != nil {
 		   log.Errorf("Error retrieving account from database")
 		   return  err
+	   }
+	   if !account.Active {
+		c.JSON(fiber.Map{"active": account.Active})
 	   }
 	   log.Infof(" TEST: %v", account)
 	   return c.JSON(account)
@@ -175,16 +169,18 @@ func DeleteAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		   log.Errorf("Error retrieving account from database")
 		   return  err
 	   }
-	   
+
 	   account.Active = false
 	   sb := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
-	   updateStatement := sb.Update("Accounts").Set("active",account.Active ).Where(sq.Eq{"uuid":id.ID})
+	   updateStatement := sb.Update("accounts").Set("active",account.Active ).
+	   Set("updated_at",time.Now()).Where(sq.Eq{"uuid":id.ID})
 	   _, err = updateStatement.Exec()
 	   if err != nil {
 		   log.Errorf("Database doesn't like your input try again, %v", err)
 		   return c.JSON(fiber.Map{"message": "deactivate account in database error"})
 	   }
 	   
-	   return c.JSON(account)
+
+	   return c.JSON(fiber.Map{"active": account.Active})
 	   }		
 }

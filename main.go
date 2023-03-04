@@ -26,7 +26,7 @@ func main(){
 	 	log.Fatalf("Parsing config file fail %v", err)
 	 }
 	appLogger := utils.NewApiLogger(confg)
-
+	
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
 
