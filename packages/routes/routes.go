@@ -112,9 +112,17 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		 c.ParamsParser(&id) // "{"id": 111}"
 		log.Infof(" TEST: %v", id.ID)
 		
+		//read in body
+		var user models.Account
+		err := c.BodyParser(&user);
+		if  err != nil {
+			log.Errorf("Login error. Can't read user input, %v", err)
+			return err
+		}
+
 		account := &models.Account{}
 		query := fmt.Sprintf("SELECT * FROM accounts where uuid = '%s' limit 1", id.ID)
-		err := db.Get(account,query)
+		err = db.Get(account,query)
 		if err != nil {
 			log.Errorf("Error retrieving account from database")
 			return  err
@@ -123,3 +131,36 @@ func GetAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		return c.JSON(account)
 		}		
  }
+
+ func UpdateAccountByID(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+	   var id models.ID
+		c.ParamsParser(&id) // "{"id": 111}"
+	   
+		var payload map[string]interface{}
+		err := c.BodyParser(&payload);
+		if  err != nil {
+			log.Errorf("Login error. Can't read user input, %v", err)
+			return err
+		}
+	   
+
+	   sb := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(db)
+	   updateStatement := sb.Update("Accounts").SetMap(payload)
+	   _, err = updateStatement.Exec()
+	   if err != nil {
+		   log.Errorf("Database doesn't like your input try again, %v", err)
+		   return c.JSON(fiber.Map{"message": "update params didnt work"})
+	   }
+
+	   account := &models.Account{}
+	   query := fmt.Sprintf("SELECT * FROM accounts where uuid = '%s' limit 1", id.ID)
+	   err = db.Get(account,query)
+	   if err != nil {
+		   log.Errorf("Error retrieving account from database")
+		   return  err
+	   }
+	   log.Infof(" TEST: %v", account)
+	   return c.JSON(account)
+	   }		
+}
