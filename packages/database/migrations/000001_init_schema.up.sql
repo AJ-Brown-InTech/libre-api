@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS Accounts(
     user_id SERIAL PRIMARY KEY,
-    UUID VARCHAR(50) UNIQUE NOT NULL,
+    uuid uuid  UNIQUE NOT NULL,
     dob DATE NOT NULL,
     username VARCHAR(25) UNIQUE NOT NULL,
     first_name VARCHAR(25) NULL DEFAULT NULL,
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS Accounts(
     verified BOOLEAN,
     created_at DATE NOT NULL,
     updated_at DATE NOT NULL,
-    post INTEGER[]
+    post bigint[]
 )
