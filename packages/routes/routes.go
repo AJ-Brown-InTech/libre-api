@@ -37,15 +37,15 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		}
 		 if !utils.Valid(user.Email) {
 		 	log.Errorf("Email error %v", err)
-		 	return c.JSON(fiber.Map{"message": "Email is not valid, try another."})
+		 	return c.Status(fiber.StatusBadRequest).SendString("Bad Request, Email is not valid, try another.")
 		}
 		 if len(user.UserName) > 24 || len(user.UserName) < 6 { //check for spaces(no spaces allowed)
 		 	log.Errorf("Register error with username length, %v", err)
-		 	return c.JSON(fiber.Map{"message": "First Name/Last Name is too long."})
+			 return c.Status(fiber.StatusBadRequest).SendString("Bad Request, First Name/Last Name is too long.")
 		 }
 		 if len(user.Password) < 6 {
 		 	log.Errorf("Register error with password length")
-		 	return c.JSON(fiber.Map{"message": "Password too short."})
+			 return c.Status(fiber.StatusBadRequest).SendString("Bad Request, Password too short.")
 		 }
 		 
 		 //data cleanup before the db query
@@ -64,7 +64,7 @@ func Register(db *sqlx.DB, log utils.Logger) func(c *fiber.Ctx) error {
 		 _, err = insertStatement.Exec()
 		 if err != nil {
 		 	log.Errorf("Database doesn't like your input try again, %v", err)
-		 	return c.JSON(fiber.Map{"message": "Couldn't create an account, try different fields."})
+			 return c.Status(fiber.StatusBadRequest).SendString("Bad Request, Couldn't create an account, try different fields.")
 		 }
 		 //create cookie session
 		 middleware.CreateSession(c,user.UserName,user.Uuid)

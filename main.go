@@ -21,11 +21,11 @@ func main(){
 	 if err != nil {
 	 	log.Fatalf("Load config file fail %v", err)
 	 }
-		confg, err := config.ParseConfig(cfgFile)
+	 confg, err := config.ParseConfig(cfgFile)
 	 if err != nil {
 	 	log.Fatalf("Parsing config file fail %v", err)
 	 }
-	appLogger := utils.NewApiLogger(confg)
+	 appLogger := utils.NewApiLogger(confg)
 	
 	//initalize new logger and connect to db
 	appLogger.InitLogger()
@@ -75,7 +75,6 @@ func main(){
 	routes.RouteManager(app, appLogger, pgDB)
 	// Start server
 	appLogger.Panicf("%v",app.Listen(":8080") )
-	
 }
 
 

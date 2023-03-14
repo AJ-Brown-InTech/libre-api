@@ -7,7 +7,7 @@ kill:
 	kill -9 (lsof -i :8080 | grep PID)
 post: 
 	curl -X POST -H "Content-Type: application/json" \
-    -d '{"username": "thisisatest", "email": "ajalantbrown@yahoo.com", "password": "password1234", "dob":"01/01/2021"}' \
+    -d '{"username": "anothertest", "email": "megan@yahoo.com", "password": "password1234", "dob":"03/05/1996"}' \
     http://localhost:8080/register
 
 login: 

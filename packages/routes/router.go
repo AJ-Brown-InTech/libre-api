@@ -14,7 +14,7 @@ func RouteManager(app *fiber.App, log utils.Logger, db *sqlx.DB){
 	app.Get("/account/:id", GetAccountByID(db, log))
 	app.Put("/account/:id", UpdateAccountByID(db, log))
 	app.Delete("/account/:id", DeleteAccountByID(db, log))
-	// app.Get("/account/:id/followers", GetAccountFollowers(db, log))
+	//app.Get("/account/:id/followers", GetAccountFollowers(db, log))
 	// app.Get("/account/:id/following", GetAccountFollowing(db, log))
 	// app.Get("/account/:id/following/:id", GetAccountFollowingByID(db, log))
 	// app.Put("/account/:id/followers/:id", AddAccountFollowingByID(db, log))
